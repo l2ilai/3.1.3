@@ -1,12 +1,15 @@
 package com.override.security.controller;
 
-import com.override.security.model.Role;
+
+import com.override.security.dto.UserDTO;
+import com.override.security.mapper.UserMapper;
 import com.override.security.model.User;
-import com.override.security.service.RoleService;
 import com.override.security.service.UserDetailsServiceImpl;
-import com.override.security.util.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -14,47 +17,59 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
-@RequestMapping("/")
+
+@Controller
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @Autowired
-    private RoleService roleService;
-
-    @GetMapping(path = {"/allUsers"})
-    public List<User> getAdminPage() {
-        return userDetailsService.findAllUsers();
+    @GetMapping
+    public String getAdminPage(Model model) {
+        model.addAttribute("users", userDetailsServiceImpl.findAllUsers());
+        return "admin-panel";
     }
 
-    @GetMapping(path = {"/new"})
-    public List<Role> newUser() {
-        return roleService.findAllRoles();
+    @GetMapping("/users/{id}")
+    @ResponseBody
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userDetailsServiceImpl.findUser(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/createUser")
-    public String createUser(User user) {
-        userDetailsService.saveUser(user);
-        return "{\"status\":\"success\"}";
+    @GetMapping("/allUsers")
+    @ResponseBody
+    public List<UserDTO> getAllUsers() {
+        return userDetailsServiceImpl.findAllUsers().stream().map(UserMapper::entityToDTO).toList();
     }
 
-    @PostMapping(path = {"/edit/{id}"})
-    public String editUser(@PathVariable("id") Long id, User user) {
-        user.setId(id);
-        userDetailsService.saveUser(user);
-        return "{\"status\":\"success\"}";
+    @PostMapping()
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+        User user = UserMapper.DTOToEntity(userDTO);
+        userDetailsServiceImpl.saveUser(user);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get/{id}")
-    public User getUser(@PathVariable(name = "id") Long id) {
-        return userDetailsService.findUser(id);
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<HttpStatus> updateUser(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO, Authentication authentication, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+        userDetailsServiceImpl.updateUser(UserMapper.DTOToEntity(userDTO));
+
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @RequestMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") Long id) {
-        userDetailsService.deleteUser(id);
-        return "{\"status\":\"success\"}";
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
+        userDetailsServiceImpl.deleteUser(id);
+        return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 }

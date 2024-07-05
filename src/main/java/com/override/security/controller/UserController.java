@@ -1,34 +1,35 @@
 package com.override.security.controller;
 
+
+import com.override.security.dto.UserDTO;
+import com.override.security.mapper.UserMapper;
+import com.override.security.model.User;
 import com.override.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("")
+@Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @GetMapping(value = "/")
-    public String getHomePage() {
-        return "index";
+    @GetMapping()
+    public String userPage(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("user", user);
+        return "user-page";
     }
 
-    @GetMapping(value = "/login")
-    public String getLoginPage() {
-        return "login";
-    }
-
-    @GetMapping(value = "/user")
-    public String getUserPage(Model model, Authentication authentication) {
-        model.addAttribute("user",userDetailsService.getAuthenticatedUser(authentication));
-        return "user";
+    @ResponseBody
+    @GetMapping("/me")
+    public UserDTO thisUser(Authentication authentication) {
+        User principal = (User) authentication.getPrincipal();
+        User user = userDetailsServiceImpl.findUser(principal.getId());
+        return UserMapper.entityToDTO(user);
     }
 }

@@ -6,6 +6,12 @@ import com.override.security.model.User;
 import com.override.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -27,6 +34,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private SessionRegistryImpl sessionRegistry;
+
     public List<User> findAllUsers() {
         return userRepository.findAll();
     }
@@ -36,19 +45,26 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return userFromDb.orElseThrow();
     }
 
-    @Transactional
-    public void saveUser(User user) {
+    public boolean saveUser(User user) {
 //        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        Optional<User> optionalUser = userRepository.findByName(user.getName());
+        if (optionalUser.isPresent()) {
+            return false;
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        return true;
     }
 
     @Transactional
-    public void updateUser(User updateUser) {
-        User userToBeUpdated = findUser(updateUser.getId());
-        userToBeUpdated.setName(updateUser.getName());
-        userToBeUpdated.setPassword(passwordEncoder.encode(updateUser.getPassword()));
-        userToBeUpdated.setRoles(updateUser.getRoles());
+    public void updateUser(User updatedUser) {
+        User newUser = userRepository.findById(updatedUser.getId()).get();
+        newUser.setName(updatedUser.getName());
+        newUser.setLastName(updatedUser.getLastName());
+        newUser.setAge(updatedUser.getAge());
+        newUser.setEmail(updatedUser.getEmail());
+        newUser.setRoles(updatedUser.getRoles());
+        userRepository.save(newUser);
     }
 
     @Transactional
@@ -78,8 +94,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     }
 
-    public User getAuthenticatedUser(Authentication authentication) {
-        User authenticatedUser =  (User) authentication.getPrincipal();
-        return findUser(authenticatedUser.getId());
+    //Метод для удаления сессии любого пользователя
+    public void expireUserSessions(User user) {
+        for (Object principal : sessionRegistry.getAllPrincipals()) {
+            if (principal instanceof User) {
+                UserDetails userDetails = (UserDetails) principal;
+                if (userDetails.getUsername().equals(user.getName())) {
+                    for (SessionInformation information : sessionRegistry
+                            .getAllSessions(userDetails, true)) {
+                        information.expireNow();
+                    }
+                }
+            }
+        }
     }
+
+
 }
