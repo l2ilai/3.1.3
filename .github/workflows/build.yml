@@ -1,11 +1,11 @@
-#name: Build #& Deploy
-#
-#on:
-#  push:
-#    branches:
-#      [main, master]
-#
-#jobs:
+name: Build #& Deploy
+
+on:
+  push:
+    branches:
+      [main, master]
+
+jobs:
 #  push_compose:
 #    name: Push docker-compose.yaml to remote server
 #    runs-on: ubuntu-latest
@@ -22,26 +22,26 @@
 #          target: "/home/${{ secrets.SSH_USER }}"
 #          overwrite: true
 #
-#  build_and_push_images:
-#    name: Push image to DockerHub
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: Login to DockerHub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_TOKEN }}
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v2
-#
-#      - name: Review Bot Build and Push to Dockerhub
-#        uses: docker/build-push-action@v2
-#        with:
-#          file: ./Dockerfile
-#          push: true
-#          tags: l2ilai/spring-app
-#
+  build_and_push_images:
+    name: Push image to DockerHub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Review Bot Build and Push to Dockerhub
+        uses: docker/build-push-action@v2
+        with:
+          file: ./Dockerfile
+          push: true
+          tags: l2ilai/spring-app
+
 #  deploy:
 #    name: Deploy
 #    runs-on: ubuntu-latest
