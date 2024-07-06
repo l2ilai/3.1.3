@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-column
+      author: ilya
+      changes:
+        - addAutoIncrement:
+            tableName: u_user
+            columnName: id
+            generationType: bigserial

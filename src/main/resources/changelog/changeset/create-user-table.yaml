@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user
+      author: ilya
+      changes:
+        - createTable:
+            tableName: t_user
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lastname
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: integer(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(61)
+                  constraints:
+                    nullable: false

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-app
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+        - image: "l2ilai/spring-app:3.0"
+          name: spring-app
+          ports:
+            - containerPort: 999
+          env:
+            - name: DB_PASS
+              value: pass
+            - name: DB_URL
+              value: jdbc:postgresql://postgresql:5432/
+            - name: DB_USER
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update

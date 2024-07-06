@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-time
+      author: lilya
+      changes:
+        - addColumn:
+            tableName: t_user
+            columns:
+              - column:
+                  name: time
+                  type: timestamp without time zone
+                  defaultValue: now()
+                  constraints:
+                    nullable: false

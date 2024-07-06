@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-column1
+      author: ilya
+      changes:
+        - renameColumn:
+            tableName: t_user
+            oldColumnName: full_name
+            newColumnName: nick

@@ -35,7 +35,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column
-    @NotEmpty(message = "Поле не должно быть пустым!")
+    @NotEmpty(message = "Поле е-майл не должно быть пустым!")
     private String email;
 
     @Column
