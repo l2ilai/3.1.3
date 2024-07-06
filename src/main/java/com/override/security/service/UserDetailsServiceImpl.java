@@ -46,7 +46,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public boolean saveUser(User user) {
-//        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         Optional<User> optionalUser = userRepository.findByName(user.getName());
         if (optionalUser.isPresent()) {
             return false;
@@ -58,11 +57,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Transactional
     public void updateUser(User updatedUser) {
-        User newUser = userRepository.findById(updatedUser.getId()).get();
+        User newUser = findUser(updatedUser.getId());
         newUser.setName(updatedUser.getName());
         newUser.setLastName(updatedUser.getLastName());
         newUser.setAge(updatedUser.getAge());
         newUser.setEmail(updatedUser.getEmail());
+        newUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         newUser.setRoles(updatedUser.getRoles());
         userRepository.save(newUser);
     }
@@ -82,32 +82,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return user.get();
     }
-
-    public boolean isNotRoleAdmin(Authentication authentication, User user) {
-        Role roleAdmin = new Role(2L, "ROLE_ADMIN");
-        User authenticatedUser = (User) authentication.getPrincipal();
-        if (user.getName().equals(authenticatedUser.getName())) {
-            Set<Role> userRoles = user.getRoles();
-            return !userRoles.contains(roleAdmin);
-        }
-        return false;
-
-    }
-
-    //Метод для удаления сессии любого пользователя
-    public void expireUserSessions(User user) {
-        for (Object principal : sessionRegistry.getAllPrincipals()) {
-            if (principal instanceof User) {
-                UserDetails userDetails = (UserDetails) principal;
-                if (userDetails.getUsername().equals(user.getName())) {
-                    for (SessionInformation information : sessionRegistry
-                            .getAllSessions(userDetails, true)) {
-                        information.expireNow();
-                    }
-                }
-            }
-        }
-    }
-
-
 }
