@@ -1,74 +1,58 @@
 function loadServers() {
     $.ajax({
-        url: '/server/allServers',
+        url: '/server-panel/allServers',
         type: 'GET',
         dataType: 'json',
         success: function (servers) {
             let tbody = $('#allServers');
             tbody.empty();
 
-            servers.forEach(function (user) {
-                let roles = user.roles.map(role => role.role).join(', ');
+            servers.forEach(function (server) {
 
-                let userRow = `
+                let serverRow = `
                         <tr>
-                            <td>${user.id}</td>
-                            <td>${user.name}</td>
-                            <td>${user.lastName}</td>
-                            <td>${user.age}</td>
-                            <td>${user.email}</td>
-                            <td>${roles}</td>
-                            <td><button type="button" class="btn btn-info btn-edit" data-id="${user.id}" data-toggle="modal" data-target="#ModalEditUser">Edit</button></td>
-                            <td><button class="btn btn-danger btn-delete" data-id="${user.id}" data-toggle="modal" data-target="#ModalDeleteUserCentral">Delete</button></td>
+                            <td>${server.id}</td>
+                            <td>${server.name}</td>
+                            <td>${server.ip}</td>
+                            <td><button type="button" class="btn btn-info btn-edit1" data-id="${server.id}" data-toggle="modal" data-target="#ModalEditServer">Edit</button></td>
+                            <td><button class="btn btn-danger btn-delete1" data-id="${server.id}" data-toggle="modal" data-target="#ModalDeleteServerCentral">Delete</button></td>
                         </tr>
                     `;
-                tbody.append(userRow);
+                tbody.append(serverRow);
             });
 
-            $('.btn-edit').click(function () {
-                let userId = $(this).data('id');
+            $('.btn-edit1').click(function () {
+                let serverId = $(this).data('id');
                 $.ajax({
-                    url: '/admin/servers/' + userId,
+                    url: '/server-panel/server/' + serverId,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (user) {
-                        console.log(user);
-                        let form = $('#modalEditUserForm');
-                        form.find('#ModalInputId').val(user.id);
-                        form.find('#ModalInputFirstName').val(user.name);
-                        form.find('#ModalInputLastName').val(user.lastName);
-                        form.find('#ModalInputAge').val(user.age);
-                        form.find('#ModalInputEmail').val(user.email);
-                        let roleSelect = form.find('#ModalInputRole');
-                        roleSelect.empty();
-                        ['ROLE_ADMIN', 'ROLE_USER'].forEach(role => {
-                            let isSelected = user.roles.some(userRole => userRole.role === role);
-                            roleSelect.append(new Option(role, role, isSelected, isSelected));
-                        });
+                    success: function (server) {
+                        console.log(server);
+                        let form = $('#modalEditServerForm');
+                        form.find('#ServerInputId').val(server.id);
+                        form.find('#ServerInputName').val(server.name);
+                        form.find('#ServerInputIp').val(server.ip);
 
-                        $('#ModalEditUser').modal('show');
+                        $('#ModalEditServer').modal('show');
                     },
                     error: function (error) {
-                        console.error("error of loading user:", error);
+                        console.error("error of edit server:", error);
                     }
                 });
             });
 
-            $('.btn-delete').click(function () {
-                let userId = $(this).data('id');
+            $('.btn-delete1').click(function () {
+                let serverId = $(this).data('id');
                 $.ajax({
-                    url: '/admin/servers/' + userId,
+                    url: '/server-panel/server/' + serverId,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (user) {
-                        // модальное окно удаления пользователя
-                        $('#ModalIdDelete').val(user.id);
-                        $('#ModalNameDelete').val(user.name);
-                        $('#ModalLastNameDelete').val(user.lastName);
-                        $('#ModalAgeDelete').val(user.age);
-                        $('#ModalEmailDelete').val(user.email);
-                        $('#ModalRoleDelete').val(user.roles.map(r => r.role).join(', '));
-                        $('#ModalDeleteUserCentral').modal('show');
+                    success: function (server) {
+                        $('#ServerIdDelete').val(server.id);
+                        $('#ServerNameDelete').val(server.name);
+                        $('#ServerIpDelete').val(server.ip);
+                        $('#ModalDeleteServerCentral').modal('show');
                     }
                 });
             });
@@ -81,112 +65,70 @@ function loadServers() {
 
 loadServers();
 
-// форма добавления нового пользователя
-$('#addUser').click(function (event) {
+// форма добавления нового сервера
+$('#addServer').click(function (event) {
     event.preventDefault();
 
-    let user = {};
+    let server = {};
 
-    $('#newUserForm').find('input').each(function () {
+    $('#newServerForm').find('input').each(function () {
         let attr = $(this).attr('name');
-        user[attr] = $(this).val();
+        server[attr] = $(this).val();
     });
 
-    user['roles'] = $('#newUserForm').find('select').val().map(role => ({role}));
-
     $.ajax({
-        url: "./admin",
+        url: "/server-panel",
         type: "POST",
-        data: JSON.stringify(user),
+        data: JSON.stringify(server),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function () {
-            loadUsers();
-            window.location.href = '/admin';
+            loadServers();
+            window.location.href = '/server-panel';
         },
         error: function (xhr, status, error) {
-            console.error('Error adding new user:', status, error);
+            console.error('Error adding new server:', status, error);
         }
     });
 });
 
-// обработчик кнопки сохранения редактирования пользователя
-$('#saveEditUser').click(function (event) {
-    let user = {};
+// обработчик кнопки сохранения редактирования сервера
+$('#saveEditServer').click(function (event) {
+    let server = {};
 
-    $('#modalEditUserForm').find('input').each(function () {
+    $('#modalEditServerForm').find('input').each(function () {
         let attr = $(this).attr('name');
-        user[attr] = $(this).val();
+        server[attr] = $(this).val();
     });
 
-    user['roles'] = $('#modalEditUserForm').find('select').val().map(role => ({role}));
-
     $.ajax({
-        url: "/admin/servers/" + user.id,
+        url: "/server-panel/server/" + server.id,
         type: "PATCH",
-        data: JSON.stringify(user),
+        data: JSON.stringify(server),
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function () {
-            loadUsers();
-            $('#ModalEditUser').modal('hide');
+            loadServers();
+            $('#ModalEditServer').modal('hide');
         },
         error: function (xhr, status, error) {
-            console.error('Error of adding new user:', status, error);
+            console.error('Error of editing server:', status, error);
         }
     });
 });
 
-// Обработчик кнопки подтверждения удаления пользователя
-$('#confirmDeleteUser').click(function () {
-    let userId = $('#ModalIdDelete').val();
+// Обработчик кнопки подтверждения удаления сервера
+$('#confirmDeleteServer').click(function () {
+    let serverId = $('#ServerIdDelete').val();
     $.ajax({
-        url: '/server/servers/' + userId,
-        type: 'DELETE',
+        url: "/server-panel/servers/" + serverId,
+        type: "DELETE",
         success: function () {
-            $('#ModalDeleteUserCentral').modal('hide');
-            loadUsers();
+            $('#ModalDeleteServerCentral').modal('hide');
+            loadServers();
         },
         error: function (error) {
-            console.error("Error of deleting user:", error);
+            console.error("Error of deleting server:", error);
         }
     });
 });
-
-function serverNavigationPanel(user) {
-    let email = `<strong>${user.email}</strong>`;
-    let roles = user.roles.map(role => role.role.replace('ROLE_', '')).join(', ');
-    let content = `${email} with roles: ${roles}`;
-    $("#serverNavPanel").html(content);
-}
-
-currentUser();
-function currentUser() {
-    $.ajax({
-        url: '/user/me',
-        method: 'GET',
-        dataType: 'json',
-        success: function(user) {
-            serverNavigationPanel(server);
-            TableOfCurrentUser(server);
-        },
-        error: function(error) {
-            console.error('Error of loading current server:', error);
-        }
-    });
-}
-
-function TableOfCurrentUser(server) {
-    let roles = server.roles.map(role => role.role).join(', ');
-    let serverRow = `
-                <tr>
-                    <td>${server.id}</td>
-                    <td>${server.name}</td>
-                    <td>${server.lastName}</td>
-                    <td>${server.age}</td>
-                    <td>${server.email}</td>
-                    <td>${roles}</td>
-                </tr>
-            `;
-    $('#currentUser').html(serverRow);
-}

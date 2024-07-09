@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/server")
+@RequestMapping("/server-panel")
 public class ServerController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class ServerController {
         return "admin-panel";
     }
 
-    @GetMapping("/servers/{id}")
+    @GetMapping("/server/{id}")
     @ResponseBody
     public ResponseEntity<Server> getServerById(@PathVariable Long id) {
         Server server = serverServiceImpl.findServer(id);
@@ -55,8 +55,8 @@ public class ServerController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PatchMapping("/servers/{id}")
-    public ResponseEntity<HttpStatus> updateServer(@PathVariable Long id, @RequestBody @Valid ServerDTO serverDTO, Authentication authentication, BindingResult bindingResult) {
+    @PatchMapping("/server/{id}")
+    public ResponseEntity<HttpStatus> updateServer(@PathVariable Long id, @RequestBody @Valid ServerDTO serverDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
@@ -65,7 +65,7 @@ public class ServerController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/servers/{id}")
+    @DeleteMapping("/server/{id}")
     public ResponseEntity<HttpStatus> deleteServer(@PathVariable Long id) {
         serverServiceImpl.deleteServer(id);
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

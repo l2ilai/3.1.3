@@ -27,14 +27,15 @@
             <div class="nav flex-column nav-pills" id="pillsNav" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" id="pillsAdmin" data-toggle="pill" href="#pillsHome" role="tab"
                    aria-controls="pillsHome" aria-selected="true">Admin</a>
-                <a class="nav-link" id="pillsUser" data-toggle="pill" href="#pillsProfile" role="tab"
+                <a class="nav-link" id="pillsUser" data-toggle="pill" href="#pillsProfileUser" role="tab"
                    aria-controls="pillsProfile" aria-selected="false">User</a>
-                <a class="nav-link" id="pillsServers" data-toggle="pill" href="#pillsProfile1" role="tab"
-                   aria-controls="pillsProfile1" aria-selected="false">Servers</a>
+                <a class="nav-link" id="pillsServer" data-toggle="pill" href="#pillsProfileServer" role="tab"
+                   aria-controls="pillsProfileServer" aria-selected="false">Servers</a>
             </div>
         </div>
         <div class="col-10" style="padding-top: 15px; background: whitesmoke; min-height: 100vh;">
             <div class="tab-content" id="tabContent">
+<!-- Admin panel-->
                 <div class="tab-pane fade show active" id="pillsHome" role="tabpanel" aria-labelledby="pillsAdmin">
                     <div class="col-10">
                         <div class="row">
@@ -145,7 +146,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="pillsProfile" role="tabpanel" aria-labelledby="pillsUser">
+<!-- User panel-->
+                <div class="tab-pane fade" id="pillsProfileUser" role="tabpanel" aria-labelledby="pillsUser">
                     <div class="col-10">
                         <div class="row">
                             <div class="col-12"><p class="h1">User information-page</p></div>
@@ -174,31 +176,88 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="pillsProfile1" role="tabpanel" aria-labelledby="pillsServers">
+<!-- Server panel-->
+                <div class="tab-pane fade" id="pillsProfileServer" role="tabpanel" aria-labelledby="pillsServer">
                     <div class="col-10">
                         <div class="row">
-                            <div class="col-12"><p class="h1">Server information-page</p></div>
+                            <div class="col-12"><p class="h1">Server panel</p></div>
                         </div>
-                        <div class="row"
-                             style="background: white;border: 2px solid white;margin-right: 0; margin-left: 0;">
-                            <p class="h4" style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px;">All servers</p>
-                        </div>
-                        <div class="row"
-                             style="border: 2px solid white;margin-right: 0; margin-left: 0; background: white">
-                            <table class="table table-striped" style="margin: 25px;">
-                                <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Server name</th>
-                                    <th scope="col">IP</th>
-                                    <th scope="col">Edit</th>
-                                    <th scope="col">Delete</th>
-                                </tr>
-                                </thead>
-                                <tbody id="allServers">
+                        <div class="row">
+                            <div class="col-12" style="border: 5px">
+                                <ul class="nav nav-tabs" id="tabServer" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="serversTableTable" data-toggle="tab"
+                                           href="#serversTable" role="tab" aria-controls="serverTable"
+                                           aria-selected="true">Servers table</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="newServerTable" data-toggle="tab" href="#newServer"
+                                           role="tab"
+                                           aria-controls="newServer" aria-selected="false">New Server</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="NewTabServer">
+                                    <div class="tab-pane fade show active" id="serversTable" role="tabpanel"
+                                         aria-labelledby="serversTableTable">
+                                        <div class="row"
+                                             style="background: whitesmoke; border: 0 solid floralwhite; margin-right: 0; margin-left: 0;">
+                                            <p class="h4"
+                                               style="margin-left: 15px;margin-top: 15px;margin-bottom: 15px;">All
+                                                servers</p>
+                                        </div>
+                                        <div class="row"
+                                             style="border: 0 solid floralwhite;margin-right: 0; margin-left: 0; background: white">
+                                            <table class="table table-striped" style="margin: 25px;">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">Server name</th>
+                                                    <th scope="col">Server IP</th>
+                                                    <th scope="col">Edit</th>
+                                                    <th scope="col">Delete</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="allServers">
 
-                                </tbody>
-                            </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="newServer" aria-labelledby="newServerTable">
+                                        <div class="container-fluid" style="padding-right: 0; padding-left: 0">
+                                            <div class="row"
+                                                 style="background: whitesmoke; border: 2px solid whitesmoke; margin-right: 0; margin-left: 0;">
+                                                <p class="h4"
+                                                   style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;">Add
+                                                    new server</p>
+                                            </div>
+                                            <div class="row justify-content-center"
+                                                 style="border: 2px solid whitesmoke;margin-right: 0; margin-left: 0; background: white">
+                                                <div class="col-4" style="text-align: center;">
+                                                    <form id="newServerForm">
+                                                        <div class="form-group">
+                                                            <label for="InputServerName">Server Name</label>
+                                                            <input type="text" class="form-control" id="InputServerName"
+                                                                   placeholder="Enter server name" name="name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="InputServerIp">Server IP</label>
+                                                            <input type="text" class="form-control" id="InputServerIp"
+                                                                   placeholder="Enter server ip" name="ip">
+                                                        </div>
+
+                                                        <div style="padding-bottom: 1px; background: white">
+                                                            <button class="btn btn-success" type="submit" id="addServer">
+                                                                Add new server
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,7 +266,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal user-->
 <div class="modal fade" id="ModalEditUser" tabindex="-1" role="dialog" aria-labelledby="ModalCentral" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -309,6 +368,76 @@
     </div>
 </div>
 
+<!-- Modal server-->
+<div class="modal fade" id="ModalEditServer" tabindex="-1" role="dialog" aria-labelledby="ModalCentralServer" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-tittle" id="UpperServerModal">Edit server</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="modalEditServerForm">
+                    <div class="form-group">
+                        <label for="ServerInputId">ID</label>
+                        <input type="text" class="form-control" id="ServerInputId" value="0" name="id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="ServerInputName">Server Name</label>
+                        <input type="text" class="form-control" id="ServerInputName" value="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="ServerInputIp">Server IP</label>
+                        <input type="text" class="form-control" id="ServerInputIp" value="ip"
+                               name="ip">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="saveEditServer" class="btn btn-info" data-dismiss="modal">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalDeleteServerCentral" tabindex="-1" role="dialog" aria-labelledby="ModalCentralServer"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteServerModal">Delete server</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="ModalDeleteServerForm">
+                    <div class="form-group">
+                        <label for="ServerIdDelete">ID</label>
+                        <input type="text" class="form-control" id="ServerIdDelete" value=1 readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="ServerNameDelete">Server Name</label>
+                        <input type="text" class="form-control" id="ServerNameDelete" value="name" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="ServerIpDelete">Server IP</label>
+                        <input type="text" class="form-control" id="ServerIpDelete" value="ip" readonly>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="confirmDeleteServer" class="btn btn-danger" data-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/js/admin-script.js"></script>
+<script src="/js/server-script.js"></script>
 </body>
 </html>
