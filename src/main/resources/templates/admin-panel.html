@@ -29,6 +29,8 @@
                    aria-controls="pillsHome" aria-selected="true">Admin</a>
                 <a class="nav-link" id="pillsUser" data-toggle="pill" href="#pillsProfile" role="tab"
                    aria-controls="pillsProfile" aria-selected="false">User</a>
+                <a class="nav-link" id="pillsServers" data-toggle="pill" href="#pillsProfile1" role="tab"
+                   aria-controls="pillsProfile1" aria-selected="false">Servers</a>
             </div>
         </div>
         <div class="col-10" style="padding-top: 15px; background: whitesmoke; min-height: 100vh;">
@@ -166,6 +168,34 @@
                                 </tr>
                                 </thead>
                                 <tbody id="currentUser">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pillsProfile1" role="tabpanel" aria-labelledby="pillsServers">
+                    <div class="col-10">
+                        <div class="row">
+                            <div class="col-12"><p class="h1">Server information-page</p></div>
+                        </div>
+                        <div class="row"
+                             style="background: white;border: 2px solid white;margin-right: 0; margin-left: 0;">
+                            <p class="h4" style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px;">All servers</p>
+                        </div>
+                        <div class="row"
+                             style="border: 2px solid white;margin-right: 0; margin-left: 0; background: white">
+                            <table class="table table-striped" style="margin: 25px;">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Server name</th>
+                                    <th scope="col">IP</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody id="allServers">
 
                                 </tbody>
                             </table>
