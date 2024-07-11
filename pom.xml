@@ -53,7 +53,6 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -71,7 +70,6 @@
 			<artifactId>sshj</artifactId>
 			<version>0.38.0</version>
 		</dependency>
-
 
 	</dependencies>
 
