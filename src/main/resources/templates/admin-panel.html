@@ -25,18 +25,19 @@
     <div class="row">
         <div class="col-2" style="padding-top: 10px; padding-right: 0">
             <div class="nav flex-column nav-pills" id="pillsNav" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="pillsAdmin" data-toggle="pill" href="#pillsHome" role="tab"
-                   aria-controls="pillsHome" aria-selected="true">Admin</a>
+                <a class="nav-link active" id="pillsServer" data-toggle="pill" href="#pillsProfileServer" role="tab"
+                   aria-controls="pillsProfileServer" aria-selected="true">Servers</a>
+                <a class="nav-link" id="pillsAdmin" data-toggle="pill" href="#pillsHome" role="tab"
+                   aria-controls="pillsHome" aria-selected="false">Admin</a>
                 <a class="nav-link" id="pillsUser" data-toggle="pill" href="#pillsProfileUser" role="tab"
                    aria-controls="pillsProfile" aria-selected="false">User</a>
-                <a class="nav-link" id="pillsServer" data-toggle="pill" href="#pillsProfileServer" role="tab"
-                   aria-controls="pillsProfileServer" aria-selected="false">Servers</a>
+
             </div>
         </div>
         <div class="col-10" style="padding-top: 15px; background: whitesmoke; min-height: 100vh;">
             <div class="tab-content" id="tabContent">
 <!-- Admin panel-->
-                <div class="tab-pane fade show active" id="pillsHome" role="tabpanel" aria-labelledby="pillsAdmin">
+                <div class="tab-pane fade" id="pillsHome" role="tabpanel" aria-labelledby="pillsAdmin">
                     <div class="col-10">
                         <div class="row">
                             <div class="col-12"><p class="h1">Admin panel</p></div>
@@ -177,7 +178,7 @@
                     </div>
                 </div>
 <!-- Server panel-->
-                <div class="tab-pane fade" id="pillsProfileServer" role="tabpanel" aria-labelledby="pillsServer">
+                <div class="tab-pane fade show active" id="pillsProfileServer" role="tabpanel" aria-labelledby="pillsServer">
                     <div class="col-10">
                         <div class="row">
                             <div class="col-12"><p class="h1">Server panel</p></div>

@@ -4,10 +4,10 @@ import com.override.security.dto.ServerDTO;
 import com.override.security.mapper.ServerMapper;
 import com.override.security.model.Server;
 import com.override.security.service.ServerServiceImpl;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +24,7 @@ public class ServerController {
     private ServerServiceImpl serverServiceImpl;
 
     @GetMapping
-    public String getServersPage(Model model) {
+    public String getServers(Model model) {
         model.addAttribute("servers", serverServiceImpl.findAllServers());
         return "admin-panel";
     }
@@ -56,7 +56,7 @@ public class ServerController {
     }
 
     @PatchMapping("/server/{id}")
-    public ResponseEntity<HttpStatus> updateServer(@PathVariable Long id, @RequestBody @Valid ServerDTO serverDTO, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateServer(@RequestBody @Valid ServerDTO serverDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
@@ -69,5 +69,12 @@ public class ServerController {
     public ResponseEntity<HttpStatus> deleteServer(@PathVariable Long id) {
         serverServiceImpl.deleteServer(id);
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
+    }
+
+    @SneakyThrows
+    @ResponseBody
+    @GetMapping("/bash/{cmd}")
+    public String execCommand(@PathVariable String cmd) {
+        return serverServiceImpl.execCommand(cmd);
     }
 }

@@ -4,7 +4,9 @@ package com.override.security.controller;
 import com.override.security.dto.UserDTO;
 import com.override.security.mapper.UserMapper;
 import com.override.security.model.User;
+import com.override.security.service.ServerServiceImpl;
 import com.override.security.service.UserDetailsServiceImpl;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +60,7 @@ public class AdminController {
     }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@PathVariable Long id, @RequestBody @Valid UserDTO userDTO, Authentication authentication, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid UserDTO userDTO, Authentication authentication, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }

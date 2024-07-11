@@ -121,7 +121,7 @@ $('#saveEditServer').click(function (event) {
 $('#confirmDeleteServer').click(function () {
     let serverId = $('#ServerIdDelete').val();
     $.ajax({
-        url: "/server-panel/servers/" + serverId,
+        url: "/server-panel/server/" + serverId,
         type: "DELETE",
         success: function () {
             $('#ModalDeleteServerCentral').modal('hide');
