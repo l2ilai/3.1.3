@@ -10,6 +10,7 @@ services:
   app:
 #    build: /
     image: "l2ilai/spring-app:latest"
+    command: sudo docker cp id_rsa java-app:/id_rsa
     container_name: 'java-app'
     env_file:
       - ./.env
