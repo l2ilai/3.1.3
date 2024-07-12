@@ -3,18 +3,12 @@ RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY pom.xml /workspace
 COPY src /workspace/src
-RUN echo $SSH_KEY
-RUN echo ${SSH_KEY}
-RUN echo ${SSH_KEY:-ssh-key}
-RUN echo ${{ SSH_KEY }}
+RUN echo $key
+RUN echo ${SHH_KEY:-ssh-key}
 RUN mvn -B -f pom.xml clean package -DskipTests
 
 FROM openjdk:17
 COPY --from=build /workspace/target/*.jar app.jar
-RUN echo $SSH_KEY
-RUN echo ${SSH_KEY}
-RUN echo ${SSH_KEY:-ssh-key}
-RUN echo ${{ SSH_KEY }}
 ENTRYPOINT ["java","-jar","app.jar"]
 
 

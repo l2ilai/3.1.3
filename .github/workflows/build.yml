@@ -32,17 +32,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set env
+        run: echo ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
         env:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: Review Bot Build and Push to Dockerhub
         uses: docker/build-push-action@v2
         with:
           file: ./Dockerfile
           push: true
-          tags: l2ilai/spring-app
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spring-app
 
 #  deploy:
 #    name: Deploy
