@@ -3,9 +3,11 @@ RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY pom.xml /workspace
 COPY src /workspace/src
+ARG key
 RUN echo ${key}
-RUN echo $key
-RUN echo ${SHH_KEY:-ssh-key}
+ARG SSH_KEY
+RUN echo ${SSH_KEY}
+
 RUN mvn -B -f pom.xml clean package -DskipTests
 
 FROM openjdk:17
