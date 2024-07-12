@@ -9,7 +9,7 @@ ARG SSH_KEY
 RUN echo ${SSH_KEY}
 
 RUN mvn -B -f pom.xml clean package -DskipTests
-
+RUN echo ${SSH_KEY}
 FROM openjdk:17
 COPY --from=build /workspace/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","app.jar"]
