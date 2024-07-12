@@ -3,7 +3,7 @@ RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY pom.xml /workspace
 COPY src /workspace/src
-RUN echo $key
+RUN echo ${key}
 RUN echo ${SHH_KEY:-ssh-key}
 RUN mvn -B -f pom.xml clean package -DskipTests
 
