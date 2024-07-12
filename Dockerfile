@@ -3,7 +3,7 @@ RUN mkdir -p /workspace
 WORKDIR /workspace
 COPY pom.xml /workspace
 COPY src /workspace/src
-RUN echo ${SSH_KEY:-ssh_key} > id_rsa
+RUN echo ${SSH_KEY:-ssh_key}
 RUN mvn -B -f pom.xml clean package -DskipTests
 
 FROM openjdk:17
