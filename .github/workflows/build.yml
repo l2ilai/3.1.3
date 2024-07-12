@@ -68,4 +68,4 @@ jobs:
             
             rm java-app-env.txt
             
-            sudo docker cp id_rsa java-app:/.id_rsa
+            sudo docker cp .id_rsa java-app:/id_rsa
