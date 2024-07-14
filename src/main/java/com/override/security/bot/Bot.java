@@ -52,6 +52,7 @@ public class Bot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
+        boolean isDownload = false;
         if (update.hasMessage() && update.getMessage().hasDocument()) {
 
             Long chat_id = update.getMessage().getChatId();
@@ -76,7 +77,7 @@ public class Bot extends TelegramLongPollingCommandBot {
                         if (newServerUser != null) {
                             try {
                                 uploadFile(docName, docId, getBotToken());
-//                                serverService.execCommand("ls -la");
+                                isDownload = true;
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -90,6 +91,9 @@ public class Bot extends TelegramLongPollingCommandBot {
             } else {
                 System.out.println("Нет прав для загрузки файла!");
             }
+        }
+        if (isDownload) {
+            serverService.execCommand("ls -la");
         }
     }
 
