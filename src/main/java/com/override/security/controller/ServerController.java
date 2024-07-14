@@ -73,8 +73,8 @@ public class ServerController {
 
     @SneakyThrows
     @ResponseBody
-    @GetMapping("/bash/{cmd}")
-    public String execCommand(@PathVariable String cmd) {
+    @GetMapping("/bash")
+    public String execCommand(@RequestParam String cmd) {
         return serverServiceImpl.execCommand(cmd);
     }
 }
