@@ -3,6 +3,7 @@ package com.override.security.service;
 import com.override.security.model.Server;
 import com.override.security.properties.ServerProperties;
 import com.override.security.repository.ServerRepository;
+import lombok.SneakyThrows;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
 import net.schmizz.sshj.connection.channel.direct.Session;
@@ -59,8 +60,8 @@ public class ServerServiceImpl {
             serverRepository.deleteById(id);
         }
     }
-
-    public String execCommand(String command) throws Exception {
+    @SneakyThrows
+    public String execCommand(String command) {
         SSHClient ssh = new SSHClient();
         File privateKey = new File(serverProperties.getPathToPrivateKey());
         KeyProvider keys = ssh.loadKeys(privateKey.getPath());

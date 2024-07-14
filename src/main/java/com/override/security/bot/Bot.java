@@ -2,6 +2,8 @@ package com.override.security.bot;
 
 import com.override.security.bot.contants.ServiceCommand;
 import com.override.security.bot.properties.BotProperties;
+import com.override.security.service.ServerServiceImpl;
+import lombok.SneakyThrows;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +29,9 @@ public class Bot extends TelegramLongPollingCommandBot {
 
     @Autowired
     private BotProperties botProperties;
+
+    @Autowired
+    private ServerServiceImpl serverService;
 
     @Value("${file.path}")
     private String pathDownload;
@@ -61,16 +66,23 @@ public class Bot extends TelegramLongPollingCommandBot {
             Integer docSize = document.getFileSize();
             System.out.println(caption);
             String typeDoc = docName.substring(docName.lastIndexOf("."));
-            if (typeDoc.equals(".pub") && name.equals(ownerName)) {
-                if (docSize < 5000) {
-                    try {
-                        uploadFile(docName, docId, getBotToken());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            if (name.equals(ownerName)) {
+                if (typeDoc.equals(".pub")) {
+                    if (docSize < 5000) {
+                        try {
+                            uploadFile(docName, docId, getBotToken());
+                            serverService.execCommand("sudo docker cp java-app:/id_rsa.pub id_rsa.pub");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else {
+                        System.out.println("Размер файла не должен превышать 5 КБайт!");
                     }
-                } else System.out.println("Размер файла не должен превышать 5 КБайт!");
+                } else {
+                    System.out.println("Файл не pub");
+                }
             } else {
-                System.out.println("Файл не pub");
+                System.out.println("Нет прав для загрузки файла!");
             }
         }
     }
