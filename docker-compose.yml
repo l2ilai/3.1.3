@@ -7,16 +7,30 @@ services:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASS:-postgres}
       POSTGRES_DB: postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+
   app:
 #    build: /
     image: "l2ilai/spring-app:latest"
-#    command: sudo docker cp id_rsa java-app:/id_rsa
     container_name: 'java-app'
-    env_file:
-      - ./.env
+    restart: unless-stopped
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_URL: ${DB_URL}
+      SSH_IP: ${SSH_IP}
+      SSH_KEY: ${SSH_KEY}
+      SSH_USER: ${SSH_USER}
+      BOT_TOKEN: ${BOT_TOKEN}
+      BOT_NAME: ${BOT_NAME}
     depends_on:
       - postgres
     ports:
       - 999:999
-
-
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"

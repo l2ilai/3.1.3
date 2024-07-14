@@ -18,7 +18,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{secrets.SSH_PRIVATE_KEY}}
           port: 22
-          source: "docker-compose.yml"
+          source: "docker-compose.yml, id_rsa"
           target: "/home/${{ secrets.SSH_USER }}"
           overwrite: true
 
@@ -54,11 +54,15 @@ jobs:
           key: ${{secrets.SSH_PRIVATE_KEY}}
           port: 22
           script: |
-            whoami
-            ls
-
             echo DB_USER = ${{ secrets.DB_USER }} >> java-app-env.txt
             echo DB_PASS = ${{ secrets.DB_PASS }} >> java-app-env.txt
+            echo DB_URL = ${{ secrets.DB_URL }} >> java-app-env.txt
+            echo SSH_IP = ${{ secrets.SSH_IP }} >> java-app-env.txt
+            echo SSH_KEY = ${{ secrets.SSH_KEY }} >> java-app-env.txt
+            echo SSH_USER = ${{ secrets.SSH_USER }} >> java-app-env.txt
+            echo BOT_TOKEN = ${{ secrets.BOT_TOKEN }} >> java-app-env.txt
+            echo BOT_NAME = ${{ secrets.BOT_NAME }} >> java-app-env.txt
+           
 
             sudo docker stop java-app
             sudo docker rm java-app
@@ -68,4 +72,5 @@ jobs:
             
             rm java-app-env.txt
             
-            sudo docker cp .id_rsa java-app:/id_rsa
+            sudo docker cp id_rsa java-app:/id_rsa
+            rm id_rsa

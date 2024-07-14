@@ -1,17 +1,20 @@
 server:
-  port: 999
+  port: ${SERVER_PORT:999}
+bot:
+  name: ${BOT_NAME}
+  token: ${BOT_TOKEN}
 ssh-server:
   ip: ${SSH_IP}
   port: ${SSH_PORT:22}
   user: ${SSH_USER}
-  pathToPrivateKey: ${SSH_KEY:C:\Users\Asakura\.ssh\id_rsa}
+  pathToPrivateKey: ${SSH_KEY}
 
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DB_URL:jdbc:postgresql://postgres:5432/postgres}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASS:pass}
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
     properties:
       hibernate:
