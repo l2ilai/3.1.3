@@ -59,11 +59,17 @@ jobs:
             echo DB_URL = ${{ secrets.DB_URL }} >> java-app-env.txt
             echo SSH_IP = ${{ secrets.SSH_IP }} >> java-app-env.txt
             echo SSH_USER = ${{ secrets.SSH_USER }} >> java-app-env.txt
-            echo SSH_PRIVATE_KEY = ${{ secrets.SSH_PRIVATE_KEY }} >> java-app-env.txt
-            echo SSH_KEY = ${{ secrets.SSH_KEY }} >> java-app-env.txt
             echo BOT_TOKEN = ${{ secrets.BOT_TOKEN }} >> java-app-env.txt
             echo BOT_NAME = ${{ secrets.BOT_NAME }} >> java-app-env.txt
-                       
-            echo ${{ secrets.SSH_KEY }} >> id_rsa
-            echo SSH_PRIVATE_KEY = ${{ secrets.SSH_PRIVATE_KEY }} >> id_rsa1
-            echo SSH_KEY = ${{ secrets.SSH_KEY }} >> id_rsa1
+           
+
+#            sudo docker stop java-app
+#            sudo docker rm java-app
+#            sudo docker rmi l2ilai/spring-app
+#
+#            sudo docker-compose -f docker-compose.yml --env-file=java-app-env.txt up -d
+
+            rm java-app-env.txt
+            
+            echo ${{ secrets.SSH_KEY }} > id_rsa
+            sudo docker cp id_rsa java-app:/id_rsa
