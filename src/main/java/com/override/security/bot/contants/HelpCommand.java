@@ -1,22 +1,14 @@
 package com.override.security.bot.contants;
 
-import com.override.security.service.ServerServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import java.util.stream.Collectors;
-
 import static com.override.security.bot.contants.Command.HELP;
 
 @Component
 public class HelpCommand extends ServiceCommand {
-
-
-    @Autowired
-    private ServerServiceImpl serverService;
 
     public HelpCommand() {
         super(HELP.getAlias(), HELP.getDescription());
@@ -27,10 +19,6 @@ public class HelpCommand extends ServiceCommand {
         String userName = (user.getUserName() != null) ? user.getUserName() :
                 String.format("%s %s", user.getLastName(), user.getFirstName());
         sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
-                "Список доступных серверов:\n" +
-                        serverService.findAllServers().stream()
-                                .map(server -> "\uD83D\uDC49" + " " + server.getName() +
-                                        " " + server.getIp())
-                                .collect(Collectors.joining("\n")));
+                "\uD83E\uDD21");
     }
 }

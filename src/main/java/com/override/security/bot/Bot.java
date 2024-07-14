@@ -2,13 +2,21 @@ package com.override.security.bot;
 
 import com.override.security.bot.contants.ServiceCommand;
 import com.override.security.bot.properties.BotProperties;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.List;
 
 @Component
@@ -34,17 +42,47 @@ public class Bot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
+        if (update.hasMessage() && update.getMessage().hasDocument()) {
 
-    }
+            Long chat_id = update.getMessage().getChatId();
 
-    private void sendMessage(Update update) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
-        sendMessage.setText("Hi");
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            System.out.println(e.getMessage());
+            Document document = update.getMessage().getDocument();
+
+            String docId = update.getMessage().getDocument().getFileId();
+            String docName = document.getFileName();
+            Integer docSize = document.getFileSize();
+
+            String typeDoc = docName.substring(docName.lastIndexOf("."));
+            if (typeDoc.equals(".pub")) {
+                if (docSize < 5000) {
+                    try {
+                        uploadFile(docName, docId, getBotToken());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else System.out.println("Размер файла не должен превышать 5 КБайт!");
+            } else {
+                System.out.println("Файл не pub");
+            }
         }
     }
+
+
+    public void uploadFile(String file_name, String file_id, String token) throws IOException {
+        URL url = new URL("https://api.telegram.org/bot" + token + "/getFile?file_id=" + file_id);
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        String res = in.readLine();
+        JSONObject jresult = new JSONObject(res);
+        JSONObject path = jresult.getJSONObject("result");
+        String file_path = path.getString("file_path");
+        URL downoload = new URL("https://api.telegram.org/file/bot" + token + "/" + file_path);
+        FileOutputStream fos = new FileOutputStream("C:\\Users\\Asakura\\Documents\\project\\3.1.3\\" + file_name);
+        System.out.println("Start upload");
+        ReadableByteChannel rbc = Channels.newChannel(downoload.openStream());
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        fos.close();
+        rbc.close();
+        System.out.println("Uploaded!");
+    }
+
 }

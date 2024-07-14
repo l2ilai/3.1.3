@@ -1,0 +1,2 @@
+docker exec -it java-postgres psql -U postgres
+psql -h localhost -p 5432 -U postgres -W -d postgres

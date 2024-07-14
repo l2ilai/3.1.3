@@ -20,6 +20,6 @@ public class StartCommand extends ServiceCommand {
                 String.format("%s %s", user.getLastName(), user.getFirstName());
         sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
                 "Ку! Я могу добавить публичный SSH \uD83D\uDD11 на любой доступный сервер." +
-                        " Узнать доступные сервера /server");
+                        " Узнать доступные сервера /servers. Получить помощь /help");
     }
 }
