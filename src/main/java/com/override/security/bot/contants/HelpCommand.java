@@ -5,13 +5,13 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import static com.override.security.bot.contants.Command.START;
+import static com.override.security.bot.contants.Command.HELP;
 
 @Component
-public class StartCommand extends ServiceCommand {
+public class HelpCommand extends ServiceCommand {
 
-    public StartCommand() {
-        super(START.getAlias(), START.getDescription());
+    public HelpCommand() {
+        super(HELP.getAlias(), HELP.getDescription());
     }
 
     @Override
@@ -19,7 +19,6 @@ public class StartCommand extends ServiceCommand {
         String userName = (user.getUserName() != null) ? user.getUserName() :
                 String.format("%s %s", user.getLastName(), user.getFirstName());
         sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
-                "Ку! Я могу добавить публичный SSH \uD83D\uDD11 на любой доступный сервер." +
-                        " Узнать доступные сервера /server");
+                "Что ??поч не работает!!!!!");
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Command {
     START("start", "Начать использование бота"),
+    HELP("help", "Помощь"),
     SERVERS("servers", "Показать список доступных серверов");
 
     private String alias;
