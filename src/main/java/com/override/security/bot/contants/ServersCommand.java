@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import java.util.stream.Collectors;
+
 import static com.override.security.bot.contants.Command.SERVERS;
 
 @Component
@@ -23,8 +25,11 @@ public class ServersCommand  extends ServiceCommand {
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         String userName = (user.getUserName() != null) ? user.getUserName() :
                 String.format("%s %s", user.getLastName(), user.getFirstName());
-        //обращаемся к методу суперкласса для отправки пользователю ответа
         sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
-                serverService.getListServers());
+                "Список доступных серверов:\n" +
+                        serverService.findAllServers().stream()
+                                .map(server -> "\uD83D\uDC49" + " " + server.getName() +
+                                        " " + server.getIp())
+                                .collect(Collectors.joining("\n")));
     }
 }

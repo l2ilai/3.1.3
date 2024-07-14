@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,14 +73,5 @@ public class ServerServiceImpl {
         session.close();
         ssh.close();
         return ret;
-    }
-
-    public String getListServers () {
-        List<Server> servers = new ArrayList<>();
-        servers = findAllServers();
-        return servers.stream()
-                .map(Server::getIp)
-                .collect(Collectors.joining("\n"));
-
     }
 }
