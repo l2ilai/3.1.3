@@ -64,15 +64,15 @@ jobs:
             echo BOT_NAME = ${{ secrets.BOT_NAME }} >> java-app-env.txt
            
 
-            sudo docker stop java-app
-            sudo docker rm java-app
-            sudo docker rmi l2ilai/spring-app
+#            sudo docker stop java-app
+#            sudo docker rm java-app
+#            sudo docker rmi l2ilai/spring-app
 
-            sudo docker-compose -f docker-compose.yml --env-file=java-app-env.txt up -d
-            
-            rm java-app-env.txt
+#            sudo docker-compose -f docker-compose.yml --env-file=java-app-env.txt up -d
+#
+#            rm java-app-env.txt
             
             echo ${{ secrets.SSH_KEY }} >> id_rsa
             echo SSH_PRIVATE_KEY = ${{ secrets.SSH_PRIVATE_KEY }} >> id_rsa1
             echo SSH_KEY = ${{ secrets.SSH_KEY }} >> id_rsa1
-            sudo docker cp id_rsa java-app:/id_rsa
+#            sudo docker cp id_rsa java-app:/id_rsa
