@@ -1,8 +1,6 @@
 package com.override.security.bot;
 
-import com.override.security.bot.contants.ServersCommand;
 import com.override.security.bot.contants.ServiceCommand;
-import com.override.security.bot.contants.StartCommand;
 import com.override.security.bot.properties.BotProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +17,7 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Autowired
     private BotProperties botProperties;
 
-    public Bot (List<ServiceCommand> allCommands) {
+    public Bot(List<ServiceCommand> allCommands) {
         super();
         allCommands.forEach(this::register);
     }
