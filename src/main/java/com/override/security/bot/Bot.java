@@ -59,7 +59,12 @@ public class Bot extends TelegramLongPollingCommandBot {
 
             Document document = update.getMessage().getDocument();
             String newCaption = update.getMessage().getCaption();
-            String newServerUser = newCaption.toLowerCase().trim();
+            String newServerUser;
+            if (newCaption!= null) {
+                newServerUser = newCaption.toLowerCase().trim();
+            } else {
+                newServerUser = null;
+            }
             String docId = update.getMessage().getDocument().getFileId();
             String docName = document.getFileName();
             Integer docSize = document.getFileSize();
@@ -71,7 +76,7 @@ public class Bot extends TelegramLongPollingCommandBot {
                         if (newServerUser != null) {
                             try {
                                 uploadFile(docName, docId, getBotToken());
-                                serverService.execCommand("./script " + newServerUser);
+                                serverService.execCommand("./script ilya1");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
