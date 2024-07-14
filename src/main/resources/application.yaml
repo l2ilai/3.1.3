@@ -2,6 +2,8 @@ server:
   port: ${SERVER_PORT:999}
 owner:
   names: ${OWNER_NAME:ilai_s}
+file:
+  path: ${XPATH:/}
 bot:
   name: ${BOT_NAME}
   token: ${BOT_TOKEN}

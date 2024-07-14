@@ -28,6 +28,9 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Autowired
     private BotProperties botProperties;
 
+    @Value("${file.path}")
+    private String pathDownload;
+
     public Bot(List<ServiceCommand> allCommands) {
         super();
         allCommands.forEach(this::register);
@@ -51,11 +54,12 @@ public class Bot extends TelegramLongPollingCommandBot {
             String name = update.getMessage().getFrom().getUserName();
 
             Document document = update.getMessage().getDocument();
+            String caption = update.getMessage().getCaption();
 
             String docId = update.getMessage().getDocument().getFileId();
             String docName = document.getFileName();
             Integer docSize = document.getFileSize();
-
+            System.out.println(caption);
             String typeDoc = docName.substring(docName.lastIndexOf("."));
             if (typeDoc.equals(".pub") && name.equals(ownerName)) {
                 if (docSize < 5000) {
@@ -80,7 +84,7 @@ public class Bot extends TelegramLongPollingCommandBot {
         JSONObject path = jresult.getJSONObject("result");
         String file_path = path.getString("file_path");
         URL downoload = new URL("https://api.telegram.org/file/bot" + token + "/" + file_path);
-        FileOutputStream fos = new FileOutputStream("C:\\Users\\Asakura\\Documents\\project\\3.1.3\\" + file_name);
+        FileOutputStream fos = new FileOutputStream(pathDownload + file_name);
         System.out.println("Start upload");
         ReadableByteChannel rbc = Channels.newChannel(downoload.openStream());
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
