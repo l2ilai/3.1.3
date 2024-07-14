@@ -22,6 +22,9 @@ import java.util.List;
 @Component
 public class Bot extends TelegramLongPollingCommandBot {
 
+    @Value("${owner.names}")
+    private String ownerName;
+
     @Autowired
     private BotProperties botProperties;
 
@@ -45,6 +48,7 @@ public class Bot extends TelegramLongPollingCommandBot {
         if (update.hasMessage() && update.getMessage().hasDocument()) {
 
             Long chat_id = update.getMessage().getChatId();
+            String name = update.getMessage().getFrom().getUserName();
 
             Document document = update.getMessage().getDocument();
 
@@ -53,7 +57,7 @@ public class Bot extends TelegramLongPollingCommandBot {
             Integer docSize = document.getFileSize();
 
             String typeDoc = docName.substring(docName.lastIndexOf("."));
-            if (typeDoc.equals(".pub")) {
+            if (typeDoc.equals(".pub") && name.equals(ownerName)) {
                 if (docSize < 5000) {
                     try {
                         uploadFile(docName, docId, getBotToken());
