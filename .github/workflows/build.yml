@@ -76,5 +76,3 @@ jobs:
             sudo docker cp id_rsa java-app:/id_rsa
             cat id_rsa
             cat id_rsa1
-            rm id_rsa
-            rm id_rsa1
