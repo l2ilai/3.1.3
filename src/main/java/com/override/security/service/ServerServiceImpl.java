@@ -62,6 +62,7 @@ public class ServerServiceImpl {
     }
     @SneakyThrows
     public String execCommand(String command) {
+        System.out.println(command);
         SSHClient ssh = new SSHClient();
         File privateKey = new File(serverProperties.getPathToPrivateKey());
         KeyProvider keys = ssh.loadKeys(privateKey.getPath());
@@ -69,8 +70,11 @@ public class ServerServiceImpl {
         ssh.connect(serverProperties.getIp(), serverProperties.getPort());
         ssh.authPublickey(serverProperties.getUser(), keys);
         Session session = ssh.startSession();
+        System.out.println("ЗАЛОГИНиЛСЯ");
+        System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
         String ret = IOUtils.readFully(cmd.getInputStream()).toString();
+        System.out.println("==================" + ret +"=============");
         session.close();
         ssh.close();
         return ret;
