@@ -11,7 +11,7 @@ ssh-server:
   ip: ${SSH_IP}
   port: ${SSH_PORT:22}
   user: ${SSH_USER}
-  pathToPrivateKey: ${SSH_KEY_PATH:/id_rsa}
+  pathToPrivateKey: ${SSH_KEY_PATH:id_rsa}
 
 spring:
   datasource:
