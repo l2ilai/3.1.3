@@ -1,4 +1,4 @@
-package com.override.security.contants;
+package com.override.security.bot.contants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

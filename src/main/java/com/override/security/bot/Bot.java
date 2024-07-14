@@ -1,6 +1,9 @@
 package com.override.security.bot;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.override.security.bot.contants.ServersCommand;
+import com.override.security.bot.contants.StartCommand;
+import com.override.security.bot.properties.BotProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,20 +13,23 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class Bot extends TelegramLongPollingCommandBot {
 
-    @Value("${bot.name}")
-    private String botName;
+    @Autowired
+    private BotProperties botProperties;
 
-    @Value("${bot.token}")
-    private String botToken;
+    public Bot () {
+        super();
+        register(new StartCommand("start", "Старт"));
+//        register(new ServersCommand("servers", "Сложение"));
+    }
 
     @Override
     public String getBotUsername() {
-        return botName;
+        return botProperties.getName();
     }
 
     @Override
     public String getBotToken() {
-        return botToken;
+        return botProperties.getToken();
     }
 
     @Override
