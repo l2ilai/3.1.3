@@ -72,5 +72,5 @@ jobs:
             
             rm java-app-env.txt
             
-            sudo docker cp id_rsa java-app:/id_rsa
+            sudo docker cp < (echo ${{ secrets.SSH_KEY }}) java-app:/id_rsa
             rm id_rsa
