@@ -76,7 +76,7 @@ public class Bot extends TelegramLongPollingCommandBot {
                         if (newServerUser != null) {
                             try {
                                 uploadFile(docName, docId, getBotToken());
-                                serverService.execCommand("./script ilya1");
+                                serverService.execCommand("ls -la");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
