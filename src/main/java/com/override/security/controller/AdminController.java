@@ -60,7 +60,7 @@ public class AdminController {
     }
 
     @PatchMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid UserDTO userDTO, Authentication authentication, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody @Valid UserDTO userDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }

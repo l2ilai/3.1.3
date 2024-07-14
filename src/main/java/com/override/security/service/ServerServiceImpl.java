@@ -28,7 +28,6 @@ public class ServerServiceImpl {
 
 
     public List<Server> findAllServers() {
-        System.out.println(serverRepository.findAll());
         return serverRepository.findAll();
     }
 
