@@ -1,6 +1,7 @@
 package com.override.security.bot;
 
 import com.override.security.bot.contants.ServersCommand;
+import com.override.security.bot.contants.ServiceCommand;
 import com.override.security.bot.contants.StartCommand;
 import com.override.security.bot.properties.BotProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,17 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
+
 @Component
 public class Bot extends TelegramLongPollingCommandBot {
 
     @Autowired
     private BotProperties botProperties;
 
-    public Bot () {
+    public Bot (List<ServiceCommand> allCommands) {
         super();
-        register(new StartCommand("start", "Старт"));
-//        register(new ServersCommand("servers", "Сложение"));
+        allCommands.forEach(this::register);
     }
 
     @Override

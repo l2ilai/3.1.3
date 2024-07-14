@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-abstract class ServiceCommand  extends BotCommand {
+public abstract class ServiceCommand  extends BotCommand {
 
     ServiceCommand(String identifier, String description) {
         super(identifier, description);
