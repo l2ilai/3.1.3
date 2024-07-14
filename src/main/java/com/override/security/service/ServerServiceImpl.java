@@ -74,7 +74,7 @@ public class ServerServiceImpl {
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
         String ret = IOUtils.readFully(cmd.getInputStream()).toString();
-        System.out.println("==================" + ret +"=============");
+        System.out.println("==================" + ret +"============+=");
         session.close();
         ssh.close();
         return ret;
