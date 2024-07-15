@@ -1,6 +1,5 @@
 package com.override.security.bot.contants;
 
-import com.override.security.repository.ServerRepository;
 import com.override.security.service.ServerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +9,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import java.util.stream.Collectors;
 
-import static com.override.security.bot.contants.Command.SERVERS;
+import static com.override.security.bot.enums.Commands.SERVERS;
 
 @Component
 public class ServersCommand  extends ServiceCommand {

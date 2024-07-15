@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import static com.override.security.bot.contants.Command.HELP;
+import static com.override.security.bot.enums.Commands.HELP;
 
 @Component
 public class HelpCommand extends ServiceCommand {
