@@ -16,7 +16,6 @@ target/
 ### IntelliJ IDEA ###
 .env
 id_rsa
-id_rsa1
 .idea
 *.iws
 *.iml

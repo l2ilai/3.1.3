@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -53,9 +56,10 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Override
     public void processNonCommandUpdate(Update update) {
         boolean isDownload = false;
+        Long chat_id = update.getMessage().getChatId();
         if (update.hasMessage() && update.getMessage().hasDocument()) {
 
-            Long chat_id = update.getMessage().getChatId();
+
             String name = update.getMessage().getFrom().getUserName();
 
             Document document = update.getMessage().getDocument();
@@ -77,7 +81,7 @@ public class Bot extends TelegramLongPollingCommandBot {
                         if (newServerUser != null) {
                             try {
                                 uploadFile(docName, docId, getBotToken());
-                                isDownload = true;
+//                                isDownload = true;
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -91,10 +95,13 @@ public class Bot extends TelegramLongPollingCommandBot {
             } else {
                 System.out.println("Нет прав для загрузки файла!");
             }
+        } else if (update.hasMessage() && update.getMessage().hasText()) {
+            String msgText = update.getMessage().getText();
+            sendMessage(chat_id, msgText);
         }
-        if (isDownload) {
-            serverService.execCommand("ls -la");
-        }
+//        if (isDownload) {
+//            serverService.execCommand("ls -la");
+//        }
     }
 
 
@@ -113,6 +120,18 @@ public class Bot extends TelegramLongPollingCommandBot {
         fos.close();
         rbc.close();
         System.out.println("Uploaded!");
+    }
+
+    private void sendMessage(long chatId, String msg) {
+        SendMessage message =new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText(msg);
+
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 
 }
