@@ -55,7 +55,6 @@ public class Bot extends TelegramLongPollingCommandBot {
 
     @Override
     public void processNonCommandUpdate(Update update) {
-        boolean isDownload = false;
         Long chat_id = update.getMessage().getChatId();
         if (update.hasMessage() && update.getMessage().hasDocument()) {
 
@@ -64,16 +63,13 @@ public class Bot extends TelegramLongPollingCommandBot {
 
             Document document = update.getMessage().getDocument();
             String newCaption = update.getMessage().getCaption();
-            String newServerUser;
+            String newServerUser = null;;
             if (newCaption!= null) {
                 newServerUser = newCaption.toLowerCase().trim();
-            } else {
-                newServerUser = null;
             }
             String docId = update.getMessage().getDocument().getFileId();
             String docName = document.getFileName();
             Integer docSize = document.getFileSize();
-            System.out.println(newServerUser);
             String typeDoc = docName.substring(docName.lastIndexOf("."));
             if (name.equals(ownerName)) {
                 if (typeDoc.equals(".pub")) {
@@ -81,7 +77,6 @@ public class Bot extends TelegramLongPollingCommandBot {
                         if (newServerUser != null) {
                             try {
                                 uploadFile(docName, docId, getBotToken());
-//                                isDownload = true;
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }

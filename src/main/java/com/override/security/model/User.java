@@ -11,6 +11,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -49,6 +50,12 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="t_user_server",
+            joinColumns=  @JoinColumn(name="user_id", referencedColumnName="id"),
+            inverseJoinColumns= @JoinColumn(name="server_id", referencedColumnName="id") )
+    private Set<Server> servers;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -19,7 +19,7 @@ public abstract class ServiceCommand extends BotCommand {
         try {
             absSender.execute(message);
         } catch (TelegramApiException e) {
-            //TODO Logger
+            //TODO
         }
     }
 }

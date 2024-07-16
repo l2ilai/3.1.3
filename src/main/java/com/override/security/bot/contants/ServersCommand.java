@@ -24,7 +24,6 @@ public class ServersCommand  extends ServiceCommand {
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
         String userName = (user.getUserName() != null) ? user.getUserName() :
                 String.format("%s %s", user.getLastName(), user.getFirstName());
-        //обращаемся к методу суперкласса для отправки пользователю ответа
         sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
                 "Список доступных серверов:\n" +
                         serverService.findAllServers().stream()
