@@ -71,7 +71,7 @@ public class ServerController {
     }
 
     @GetMapping("/bash")
-    public void execCommand(@RequestParam String cmd) {
-        serverServiceImpl.execCommand("touch " + cmd);
+    public String execCommand(@RequestParam String cmd) {
+        return serverServiceImpl.execCommandViaWeb("touch " + cmd);
     }
 }
