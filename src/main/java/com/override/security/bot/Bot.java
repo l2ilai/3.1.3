@@ -74,9 +74,9 @@ public class Bot extends TelegramLongPollingCommandBot {
                         serverService.execCommand("./script " + newServerUser);
                         sendMessage(chat_id, "Пользователь " + newServerUser + " создан!");
 
-                    } else System.out.println("Нет подписи файла!");
+                    } else sendMessage(chat_id, "Нет подписи файла!");
                 } else {
-                    System.out.println("Файл не pub");
+                    sendMessage(chat_id, "Файл должен иметь расширение *.pub!");
                 }
             } else {
                 sendMessage(chat_id, "Нет прав для загрузки файла!");
