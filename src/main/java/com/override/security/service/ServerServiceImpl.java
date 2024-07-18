@@ -73,9 +73,8 @@ public class ServerServiceImpl {
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
         String ret = IOUtils.readFully(cmd.getInputStream()).toString();
-        System.out.println("==================" + ret +"============+=");
+        System.out.println("==================\n" + ret +"============+=");
         session.close();
-        //??? ssh.close; ???
         return ret;
     }
 
@@ -85,11 +84,9 @@ public class ServerServiceImpl {
         System.out.println("ЗАЛОГИНиЛСЯ");
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
-//        String ret = IOUtils.readFully(cmd.getInputStream()).toString();
-//        System.out.println("==================" + ret +"============+=");
+        String ret = IOUtils.readFully(cmd.getInputStream()).toString();
+        System.out.println("==================\n" + ret +"============+=");
         session.close();
-
-        //??? ssh.close; ???
     }
 
     public Session authToServer(String serverIP, String pathToPrivateKey, String serverUserName) throws IOException {

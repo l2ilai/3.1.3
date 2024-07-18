@@ -71,7 +71,6 @@ public class ServerController {
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 
-    @SneakyThrows
     @ResponseBody
     @GetMapping("/bash")
     public String execCommand(@RequestParam String cmd) {
