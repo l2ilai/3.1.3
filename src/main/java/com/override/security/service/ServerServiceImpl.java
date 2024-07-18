@@ -65,13 +65,15 @@ public class ServerServiceImpl {
 
     @SneakyThrows
     public String execCommandViaWeb(String command) {
-        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(), serverProperties.getUser());
+        SSHClient ssh = new SSHClient();
+        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(), serverProperties.getUser(), ssh);
         System.out.println("ЗАЛОГИНиЛСЯ");
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
         String ret = IOUtils.readFully(cmd.getInputStream()).toString();
         System.out.println("==================\n" + ret + "============+=");
         session.close();
+        ssh.close();
         return ret;
     }
 
