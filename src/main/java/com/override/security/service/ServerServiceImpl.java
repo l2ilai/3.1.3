@@ -64,11 +64,9 @@ public class ServerServiceImpl {
     }
 
     @SneakyThrows
-    public String execCommandViaWeb(String command) {
+    public String execCommand(String command) {
         SSHClient ssh = new SSHClient();
         Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(), serverProperties.getUser(), ssh);
-        System.out.println("ЗАЛОГИНиЛСЯ");
-        System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
         String ret = IOUtils.readFully(cmd.getInputStream()).toString();
         System.out.println("==================\n" + ret + "============+=");
@@ -77,33 +75,12 @@ public class ServerServiceImpl {
         return ret;
     }
 
-    @SneakyThrows
-    public void execCommand(String command) {
-        SSHClient ssh = new SSHClient();
-        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(), serverProperties.getUser(), ssh);
-        System.out.println("ЗАЛОГИНиЛСЯ");
-        System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
-        Session.Command cmd = session.exec(command);
-//        String ret = IOUtils.readFully(cmd.getInputStream()).toString();
-//        System.out.println("==================\n" + ret +"============+=");
-        session.close();
-        ssh.close();
-    }
-
-    public Session authToServer(String serverIP, String pathToPrivateKey, String serverUserName, SSHClient ssh ) throws IOException {
-        System.out.println("создал ssh");
+    public Session authToServer(String serverIP, String pathToPrivateKey, String serverUserName, SSHClient ssh) throws IOException {
         File privateKey = new File(pathToPrivateKey);
-        System.out.println("создал privateKEY");
         KeyProvider keys = ssh.loadKeys(privateKey.getPath());
-        System.out.println("key");
         ssh.addHostKeyVerifier(new PromiscuousVerifier());
-        System.out.println("добавил HostKeyVerifier");
         ssh.connect(serverIP, DEFAULT_PORT);
-        System.out.println("добавил connect");
         ssh.authPublickey(serverUserName, keys);
-        System.out.println("авторизуюсь authPublickey");
-        Session session = ssh.startSession();
-        System.out.println("созда сесию");
-        return session;
+        return ssh.startSession();
     }
 }

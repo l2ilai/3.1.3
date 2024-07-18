@@ -22,7 +22,7 @@ services:
       DB_PASS: ${DB_PASS}
       DB_URL: ${DB_URL}
       SSH_IP: ${SSH_IP}
-      SSH_KEY_PATH: ${SSH_KEY_PATH:-/id_rsa}
+      SSH_KEY_PATH: ${SSH_KEY_PATH:-/home/id_rsa}
       SSH_USER: ${SSH_USER}
       BOT_TOKEN: ${BOT_TOKEN}
       BOT_NAME: ${BOT_NAME}

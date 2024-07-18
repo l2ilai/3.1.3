@@ -85,9 +85,7 @@ public class Bot extends TelegramLongPollingCommandBot {
             sendMessage(chat_id, msgText);
         }
 
-//        if (isDownload) {
-//            serverService.execCommand("ls");
-//        }
+
     }
 
 

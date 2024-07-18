@@ -4,6 +4,7 @@ import com.override.security.dto.ServerDTO;
 import com.override.security.mapper.ServerMapper;
 import com.override.security.model.Server;
 import com.override.security.service.ServerServiceImpl;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,8 +71,9 @@ public class ServerController {
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 
+    @ResponseBody
     @GetMapping("/bash")
     public String execCommand(@RequestParam String cmd) {
-        return serverServiceImpl.execCommandViaWeb("touch " + cmd);
+        return serverServiceImpl.execCommand(cmd);
     }
 }
