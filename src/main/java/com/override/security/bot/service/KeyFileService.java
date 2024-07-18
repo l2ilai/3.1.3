@@ -23,20 +23,13 @@ public class KeyFileService {
         JSONObject jresult = new JSONObject(res);
         JSONObject path = jresult.getJSONObject("result");
         String file_path = path.getString("file_path");
-        URL downoload = new URL("https://api.telegram.org/file/bot" + token + "/" + file_path);
+        URL download = new URL("https://api.telegram.org/file/bot" + token + "/" + file_path);
         FileOutputStream fos = new FileOutputStream(pathDownload + file_name);
         System.out.println("Start upload");
-        InputStream ins = downoload.openStream();
+        InputStream ins = download.openStream();
         ReadableByteChannel rbc = Channels.newChannel(ins);
         FileChannel fic = fos.getChannel();
         fic.transferFrom(rbc, 0, Long.MAX_VALUE);
-
-
-        fic.close();
-        fos.close();
-        rbc.close();
-        ins.close();
-        in.close();
 
         System.out.println("Uploaded!");
     }
