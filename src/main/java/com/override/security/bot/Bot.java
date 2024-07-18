@@ -79,12 +79,15 @@ public class Bot extends TelegramLongPollingCommandBot {
                     System.out.println("Файл не pub");
                 }
             } else {
-                System.out.println("Нет прав для загрузки файла!");
+                sendMessage(chat_id, "Нет прав для загрузки файла!");
             }
         } else if (update.hasMessage() && update.getMessage().hasText() && name.equals(ownerName)) {
             String msgText = update.getMessage().getText();
             String resCommand = serverService.execCommand(msgText);
             sendMessage(chat_id, resCommand);
+
+        } else {
+            sendMessage(chat_id, "Нет прав для выполнения команды!");
         }
     }
 
