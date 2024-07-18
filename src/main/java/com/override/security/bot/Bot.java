@@ -3,6 +3,7 @@ package com.override.security.bot;
 import com.override.security.bot.commands.ServiceCommand;
 import com.override.security.bot.properties.BotProperties;
 import com.override.security.bot.service.KeyFileService;
+import com.override.security.bot.service.UserService;
 import com.override.security.service.ServerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,9 +19,6 @@ import java.util.List;
 @Component
 public class Bot extends TelegramLongPollingCommandBot {
 
-    @Value("${owner.names}")
-    private String ownerName;
-
     @Autowired
     private BotProperties botProperties;
 
@@ -30,7 +28,8 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Autowired
     private ServerServiceImpl serverService;
 
-
+    @Autowired
+    private UserService userService;
 
     @Value("${file.path}")
     private String pathDownload;
@@ -54,6 +53,7 @@ public class Bot extends TelegramLongPollingCommandBot {
     public void processNonCommandUpdate(Update update) {
         Long chat_id = update.getMessage().getChatId();
         String name = update.getMessage().getFrom().getUserName();
+
         if (update.hasMessage() && update.getMessage().hasDocument()) {
 
             Document document = update.getMessage().getDocument();
@@ -66,7 +66,7 @@ public class Bot extends TelegramLongPollingCommandBot {
             String docId = update.getMessage().getDocument().getFileId();
             String docName = document.getFileName();
             String typeDoc = docName.substring(docName.lastIndexOf("."));
-            if (name.equals(ownerName)) {
+            if (userService.isOwner(name)) {
                 if (typeDoc.equals(".pub")) {
                     if (newServerUser != null) {
                         keyFileService.uploadFile(docName, docId, pathDownload, getBotToken());
@@ -81,7 +81,7 @@ public class Bot extends TelegramLongPollingCommandBot {
             } else {
                 sendMessage(chat_id, "Нет прав для загрузки файла!");
             }
-        } else if (update.hasMessage() && update.getMessage().hasText() && name.equals(ownerName)) {
+        } else if (update.hasMessage() && update.getMessage().hasText() && userService.isOwner(name)) {
             String msgText = update.getMessage().getText();
             String resCommand = serverService.execCommand(msgText);
             sendMessage(chat_id, resCommand);

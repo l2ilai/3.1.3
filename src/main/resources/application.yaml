@@ -1,7 +1,9 @@
 server:
   port: ${SERVER_PORT:999}
-owner:
-  names: ${OWNER_NAME:ilai_s}
+owners:
+  userNamesTelegram:
+    - ilai_s
+    - Marandyuk_Anatolii
 file:
   path: ${XPATH:/}
   size: ${SIZE_FILE:5000}
