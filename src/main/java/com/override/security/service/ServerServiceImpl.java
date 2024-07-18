@@ -6,7 +6,6 @@ import com.override.security.repository.ServerRepository;
 import lombok.SneakyThrows;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
-import net.schmizz.sshj.common.SSHException;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
@@ -18,8 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import static net.schmizz.sshj.SSHClient.DEFAULT_PORT;
 
@@ -68,19 +65,19 @@ public class ServerServiceImpl {
 
     @SneakyThrows
     public String execCommandViaWeb(String command) {
-        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(),serverProperties.getUser());
+        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(), serverProperties.getUser());
         System.out.println("ЗАЛОГИНиЛСЯ");
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
         String ret = IOUtils.readFully(cmd.getInputStream()).toString();
-        System.out.println("==================\n" + ret +"============+=");
+        System.out.println("==================\n" + ret + "============+=");
         session.close();
         return ret;
     }
 
     @SneakyThrows
     public void execCommand(String command) {
-        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(),serverProperties.getUser());
+        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(), serverProperties.getUser());
         System.out.println("ЗАЛОГИНиЛСЯ");
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
