@@ -72,8 +72,8 @@ public class Bot extends TelegramLongPollingCommandBot {
                     if (newServerUser != null) {
                         try {
                             keyFileService.uploadFile(docName, docId, pathDownload, getBotToken());
-                            sendMessage(chat_id, serverService.execCommandViaWeb("touch 321"));
-
+                            sendMessage(chat_id, "Файл " + docName + " Загружен!");
+                            serverService.execCommand("ls");
 
                         } catch (IOException e) {
                             throw new RuntimeException(e);

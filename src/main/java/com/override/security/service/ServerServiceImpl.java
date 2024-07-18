@@ -84,8 +84,8 @@ public class ServerServiceImpl {
         System.out.println("ЗАЛОГИНиЛСЯ");
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
-        String ret = IOUtils.readFully(cmd.getInputStream()).toString();
-        System.out.println("==================\n" + ret +"============+=");
+//        String ret = IOUtils.readFully(cmd.getInputStream()).toString();
+//        System.out.println("==================\n" + ret +"============+=");
         session.close();
     }
 
