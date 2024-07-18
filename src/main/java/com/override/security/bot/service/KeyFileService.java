@@ -31,6 +31,13 @@ public class KeyFileService {
         FileChannel fic = fos.getChannel();
         fic.transferFrom(rbc, 0, Long.MAX_VALUE);
 
+
+        fic.close();
+        fos.close();
+        rbc.close();
+        ins.close();
+        in.close();
+
         System.out.println("Uploaded!");
     }
 }
