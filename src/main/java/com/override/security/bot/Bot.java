@@ -27,6 +27,7 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Autowired
     private KeyFileService keyFileService;
 
+    @Autowired
     private ServerServiceImpl serverService;
 
 
