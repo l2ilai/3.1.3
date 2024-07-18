@@ -27,6 +27,8 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Autowired
     private KeyFileService keyFileService;
 
+    private ServerServiceImpl serverService;
+
 
 
     @Value("${file.path}")
@@ -50,7 +52,6 @@ public class Bot extends TelegramLongPollingCommandBot {
     @Override
     public void processNonCommandUpdate(Update update) {
         Long chat_id = update.getMessage().getChatId();
-        boolean isDownload = false;
         if (update.hasMessage() && update.getMessage().hasDocument()) {
 
 
@@ -67,22 +68,23 @@ public class Bot extends TelegramLongPollingCommandBot {
             String docName = document.getFileName();
             String typeDoc = docName.substring(docName.lastIndexOf("."));
             if (name.equals(ownerName)) {
-//                if (typeDoc.equals(".pub")) {
+                if (typeDoc.equals(".pub")) {
                     if (newServerUser != null) {
                         keyFileService.uploadFile(docName, docId, pathDownload, getBotToken());
                         sendMessage(chat_id, "Файл " + docName + " Загружен!");
 
 
                     } else System.out.println("Нет подписи файла!");
-//                } else {
-//                    System.out.println("Файл не pub");
-//                }
+                } else {
+                    System.out.println("Файл не pub");
+                }
             } else {
                 System.out.println("Нет прав для загрузки файла!");
             }
         } else if (update.hasMessage() && update.getMessage().hasText()) {
             String msgText = update.getMessage().getText();
-            sendMessage(chat_id, msgText);
+            String resCommand = serverService.execCommand(msgText);
+            sendMessage(chat_id, resCommand);
         }
 
 
