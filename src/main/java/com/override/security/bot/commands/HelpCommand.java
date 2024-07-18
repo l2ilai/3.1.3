@@ -24,7 +24,6 @@ public class HelpCommand extends ServiceCommand {
 
         sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), this.getUserName(user),
                 "\uD83E\uDD21");
-
         serverService.execCommand("touch 777");
     }
 }
