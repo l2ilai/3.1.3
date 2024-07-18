@@ -25,6 +25,7 @@ public class KeyFileService {
         System.out.println("Start upload");
         ReadableByteChannel rbc = Channels.newChannel(downoload.openStream());
         fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        in.close();
         fos.close();
         rbc.close();
         System.out.println("Uploaded!");
