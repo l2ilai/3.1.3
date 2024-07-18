@@ -6,6 +6,7 @@ import com.override.security.repository.ServerRepository;
 import lombok.SneakyThrows;
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.common.SSHException;
 import net.schmizz.sshj.connection.channel.direct.Session;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
@@ -14,9 +15,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static net.schmizz.sshj.SSHClient.DEFAULT_PORT;
 
 
 @Service
@@ -60,23 +65,40 @@ public class ServerServiceImpl {
             serverRepository.deleteById(id);
         }
     }
+
     @SneakyThrows
-    public String execCommand(String command) {
-        System.out.println(command);
-        SSHClient ssh = new SSHClient();
-        File privateKey = new File(serverProperties.getPathToPrivateKey());
-        KeyProvider keys = ssh.loadKeys(privateKey.getPath());
-        ssh.addHostKeyVerifier(new PromiscuousVerifier());
-        ssh.connect(serverProperties.getIp(), serverProperties.getPort());
-        ssh.authPublickey(serverProperties.getUser(), keys);
-        Session session = ssh.startSession();
+    public String execCommandViaWeb(String command) {
+        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(),serverProperties.getUser());
         System.out.println("ЗАЛОГИНиЛСЯ");
         System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
         Session.Command cmd = session.exec(command);
         String ret = IOUtils.readFully(cmd.getInputStream()).toString();
         System.out.println("==================" + ret +"============+=");
         session.close();
-        ssh.close();
+        //??? ssh.close; ???
         return ret;
+    }
+
+    @SneakyThrows
+    public void execCommand(String command) {
+        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(),serverProperties.getUser());
+        System.out.println("ЗАЛОГИНиЛСЯ");
+        System.out.println("ВЫПОЛНЕНИЕ КОМАНДЫ");
+        Session.Command cmd = session.exec(command);
+//        String ret = IOUtils.readFully(cmd.getInputStream()).toString();
+//        System.out.println("==================" + ret +"============+=");
+        session.close();
+
+        //??? ssh.close; ???
+    }
+
+    public Session authToServer(String serverIP, String pathToPrivateKey, String serverUserName) throws IOException {
+        SSHClient ssh = new SSHClient();
+        File privateKey = new File(pathToPrivateKey);
+        KeyProvider keys = ssh.loadKeys(privateKey.getPath());
+        ssh.addHostKeyVerifier(new PromiscuousVerifier());
+        ssh.connect(serverIP, DEFAULT_PORT);
+        ssh.authPublickey(serverUserName, keys);
+        return ssh.startSession();
     }
 }

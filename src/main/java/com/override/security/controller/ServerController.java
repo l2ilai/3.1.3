@@ -75,6 +75,6 @@ public class ServerController {
     @ResponseBody
     @GetMapping("/bash")
     public String execCommand(@RequestParam String cmd) {
-        return serverServiceImpl.execCommand(cmd);
+        return serverServiceImpl.execCommandViaWeb(cmd);
     }
 }

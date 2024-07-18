@@ -1,6 +1,6 @@
 package com.override.security.bot.commands;
 
-import com.override.security.bot.Utils.UserUtils;
+import com.override.security.bot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,7 +15,7 @@ public abstract class ServiceCommand extends BotCommand {
     }
 
     @Autowired
-    private UserUtils userUtils;
+    private UserService userService;
 
     void sendAnswer(AbsSender absSender, Long chatId, String commandName, String userName, String text) {
         SendMessage message = new SendMessage();
@@ -30,6 +30,6 @@ public abstract class ServiceCommand extends BotCommand {
     }
 
     String getUserName(User user) {
-        return userUtils.getUserName(user);
+        return userService.getUserName(user);
     }
 }

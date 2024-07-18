@@ -1,7 +1,5 @@
 package com.override.security.bot.commands;
 
-import com.override.security.bot.Utils.UserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.User;
