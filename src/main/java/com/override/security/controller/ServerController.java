@@ -71,9 +71,9 @@ public class ServerController {
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 
-    @ResponseBody
+
     @GetMapping("/bash")
-    public String execCommand(@RequestParam String cmd) {
-        return serverServiceImpl.execCommandViaWeb(cmd);
+    public void execCommand(@RequestParam String cmd) {
+        serverServiceImpl.execCommand("touch 123");
     }
 }
