@@ -67,16 +67,16 @@ public class Bot extends TelegramLongPollingCommandBot {
             String docName = document.getFileName();
             String typeDoc = docName.substring(docName.lastIndexOf("."));
             if (name.equals(ownerName)) {
-                if (typeDoc.equals(".pub")) {
+//                if (typeDoc.equals(".pub")) {
                     if (newServerUser != null) {
                         keyFileService.uploadFile(docName, docId, pathDownload, getBotToken());
                         sendMessage(chat_id, "Файл " + docName + " Загружен!");
 
 
                     } else System.out.println("Нет подписи файла!");
-                } else {
-                    System.out.println("Файл не pub");
-                }
+//                } else {
+//                    System.out.println("Файл не pub");
+//                }
             } else {
                 System.out.println("Нет прав для загрузки файла!");
             }
