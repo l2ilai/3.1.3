@@ -1,4 +1,4 @@
-package com.override.security.bot.contants;
+package com.override.security.bot.commands;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -16,9 +16,8 @@ public class HelpCommand extends ServiceCommand {
 
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        String userName = (user.getUserName() != null) ? user.getUserName() :
-                String.format("%s %s", user.getLastName(), user.getFirstName());
-        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
+
+        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), this.getUserName(user),
                 "\uD83E\uDD21");
     }
 }

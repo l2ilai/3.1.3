@@ -1,6 +1,6 @@
 package com.override.security.bot;
 
-import com.override.security.bot.contants.ServiceCommand;
+import com.override.security.bot.commands.ServiceCommand;
 import com.override.security.bot.properties.BotProperties;
 import com.override.security.service.ServerServiceImpl;
 import org.json.JSONObject;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Document;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -69,21 +68,16 @@ public class Bot extends TelegramLongPollingCommandBot {
             }
             String docId = update.getMessage().getDocument().getFileId();
             String docName = document.getFileName();
-            Integer docSize = document.getFileSize();
             String typeDoc = docName.substring(docName.lastIndexOf("."));
             if (name.equals(ownerName)) {
                 if (typeDoc.equals(".pub")) {
-                    if (docSize < 5000) {
-                        if (newServerUser != null) {
-                            try {
-                                uploadFile(docName, docId, getBotToken());
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        } else System.out.println("Нет подписи файла!");
-                    } else {
-                        System.out.println("Размер файла не должен превышать 5 КБайт!");
-                    }
+                    if (newServerUser != null) {
+                        try {
+                            uploadFile(docName, docId, getBotToken());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else System.out.println("Нет подписи файла!");
                 } else {
                     System.out.println("Файл не pub");
                 }

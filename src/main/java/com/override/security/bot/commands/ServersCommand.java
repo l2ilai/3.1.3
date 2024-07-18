@@ -1,4 +1,4 @@
-package com.override.security.bot.contants;
+package com.override.security.bot.commands;
 
 import com.override.security.service.ServerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +22,8 @@ public class ServersCommand  extends ServiceCommand {
     }
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
-        String userName = (user.getUserName() != null) ? user.getUserName() :
-                String.format("%s %s", user.getLastName(), user.getFirstName());
-        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), userName,
+
+        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), this.getUserName(user),
                 "Список доступных серверов:\n" +
                         serverService.findAllServers().stream()
                                 .map(server -> "\uD83D\uDC49" + " " + server.getName() +
