@@ -34,22 +34,22 @@ public class AnonymUserController {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String registerPage(Model model) {
-        model.addAttribute("user", new User());
-        return "registration-page";
-    }
-
-    @PostMapping()
-    public String registerUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "registration-page";
-        }
-        user.setRoles(Collections.singleton(roleRepository.findByRole("ROLE_USER")));
-        if (!userDetailsServiceImpl.saveUser(user)) {
-            model.addAttribute("NameError", "Пользователь с таким именем уже существует");
-            return "registration-page";
-        }
-        return "redirect:/";
-    }
+//    @GetMapping("/register")
+//    public String registerPage(Model model) {
+//        model.addAttribute("user", new User());
+//        return "registration-page";
+//    }
+//
+//    @PostMapping()
+//    public String registerUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+//        if (bindingResult.hasErrors()) {
+//            return "registration-page";
+//        }
+//        user.setRoles(Collections.singleton(roleRepository.findByRole("ROLE_USER")));
+//        if (!userDetailsServiceImpl.saveUser(user)) {
+//            model.addAttribute("NameError", "Пользователь с таким именем уже существует");
+//            return "registration-page";
+//        }
+//        return "redirect:/";
+//    }
 }

@@ -16,9 +16,6 @@ import java.util.Set;
 public class UserDTO {
     private Long id;
     private String name;
-    private String lastName;
-    private int age;
-    private String email;
     private String password;
     private Set<Role> roles;
     private Set<Server> servers;

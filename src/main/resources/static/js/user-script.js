@@ -6,13 +6,12 @@ $(document).ready(function() {
         success: function(user) {
             userNavigationPanel(user)
             let roles = user.roles.map(role => role.role).join(', ');
+            let servers = user.servers.map(server => server.ip).join('\n');
             let userRow = `
                 <tr>
                     <td>${user.id}</td>
                     <td>${user.name}</td>
-                    <td>${user.lastName}</td>
-                    <td>${user.age}</td>
-                    <td>${user.email}</td>
+                    <td>${servers}</td>
                     <td>${roles}</td>
                 </tr>
             `;
@@ -25,8 +24,8 @@ $(document).ready(function() {
 });
 
 function userNavigationPanel(user) {
-    let email = `<strong>${user.email}</strong>`;
+    let name = `<strong>${user.name}</strong>`;
     let roles = user.roles.map(role => role.role.replace('ROLE_', '')).join(', ');
-    let content = `${email} with roles: ${roles}`;
+    let content = `${name} with roles: ${roles}`;
     $("#userWithRoles").html(content);
 }

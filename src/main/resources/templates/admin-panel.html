@@ -72,10 +72,8 @@
                                                 <tr>
                                                     <th scope="col">ID</th>
                                                     <th scope="col">First name</th>
-                                                    <th scope="col">Last name</th>
-                                                    <th scope="col">Age</th>
-                                                    <th scope="col">Email</th>
-                                                    <th scope="col">Role</th>
+                                                    <th scope="col">Servers</th>
+                                                    <th scope="col">Roles</th>
                                                     <th scope="col">Edit</th>
                                                     <th scope="col">Delete</th>
                                                 </tr>
@@ -103,20 +101,11 @@
                                                             <input type="text" class="form-control" id="InputFirstName"
                                                                    placeholder="Enter first name" name="name">
                                                         </div>
+
                                                         <div class="form-group">
-                                                            <label for="InputLastName">Last Name</label>
-                                                            <input type="text" class="form-control" id="InputLastName"
-                                                                   placeholder="Enter last name" name="lastName">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="InputAge">Age</label>
-                                                            <input type="text" class="form-control" id="InputAge"
-                                                                   placeholder="Enter age" name="age">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="InputEmail">Email</label>
-                                                            <input type="email" class="form-control" id="InputEmail"
-                                                                   placeholder="Enter email" name="email">
+                                                            <label for="InputServer">Servers</label>
+                                                            <input type="text" class="form-control" id="InputServer"
+                                                                   placeholder="Enter server" name="servers">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="InputPassword">Password</label>
@@ -125,7 +114,7 @@
                                                                    name="password">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="InputRole">Role</label>
+                                                            <label for="InputRole">Roles</label>
                                                             <select multiple class="form-control" id="InputRole"
                                                                     name="roles">
                                                                 <option>ROLE_ADMIN</option>
@@ -164,10 +153,8 @@
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">First name</th>
-                                    <th scope="col">Last name</th>
-                                    <th scope="col">Age</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Role</th>
+                                    <th scope="col">Servers</th>
+                                    <th scope="col">Roles</th>
                                 </tr>
                                 </thead>
                                 <tbody id="currentUser">
@@ -293,17 +280,8 @@
                         <input type="text" class="form-control" id="ModalInputFirstName" value="name" name="name">
                     </div>
                     <div class="form-group">
-                        <label for="ModalInputLastName">Last Name</label>
-                        <input type="text" class="form-control" id="ModalInputLastName" value="last name"
-                               name="lastName">
-                    </div>
-                    <div class="form-group">
-                        <label for="ModalInputAge">Age</label>
-                        <input type="text" class="form-control" id="ModalInputAge" value=1 name="age">
-                    </div>
-                    <div class="form-group">
-                        <label for="ModalInputEmail">Email</label>
-                        <input type="email" class="form-control" id="ModalInputEmail" value="email@email" name="email">
+                        <label for="ModalInputServer">Server</label>
+                        <input type="text" class="form-control" id="ModalInputServer" value="192.168.000.000" name="server">
                     </div>
                     <div class="form-group">
                         <label for="ModalInputPassword">Password</label>
@@ -345,20 +323,13 @@
                         <label for="ModalFirstNameDelete">First Name</label>
                         <input type="text" class="form-control" id="ModalFirstNameDelete" value="name" readonly>
                     </div>
+
                     <div class="form-group">
-                        <label for="ModalLastNameDelete">Last Name</label>
-                        <input type="text" class="form-control" id="ModalLastNameDelete" value="last name" readonly>
+                        <label for="ModalServerDelete">Servers</label>
+                        <input type="text" class="form-control" id="ModalServerDelete" value="servers" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="ModalAgeDelete">Age</label>
-                        <input type="text" class="form-control" id="ModalAgeDelete" value=1 readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="ModalEmailDelete">Email</label>
-                        <input type="email" class="form-control" id="ModalEmailDelete" value="email@email" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="ModalRoleDelete">Role</label>
+                        <label for="ModalRoleDelete">Roles</label>
                         <select multiple class="form-control" id="ModalRoleDelete" disabled>
                             <option>ADMIN</option>
                             <option>USER</option>

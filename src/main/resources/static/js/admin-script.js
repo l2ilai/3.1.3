@@ -9,14 +9,12 @@ function loadUsers() {
 
             users.forEach(function (user) {
                 let roles = user.roles.map(role => role.role).join(', ');
-
+                let servers = user.servers.map(server => server.ip).join('\n');
                 let userRow = `
                         <tr>
                             <td>${user.id}</td>
                             <td>${user.name}</td>
-                            <td>${user.lastName}</td>
-                            <td>${user.age}</td>
-                            <td>${user.email}</td>
+                            <td>${servers}</td>
                             <td>${roles}</td>
                             <td><button type="button" class="btn btn-info btn-edit" data-id="${user.id}" data-toggle="modal" data-target="#ModalEditUser">Edit</button></td>
                             <td><button class="btn btn-danger btn-delete" data-id="${user.id}" data-toggle="modal" data-target="#ModalDeleteUserCentral">Delete</button></td>
@@ -36,9 +34,7 @@ function loadUsers() {
                         let form = $('#modalEditUserForm');
                         form.find('#ModalInputId').val(user.id);
                         form.find('#ModalInputFirstName').val(user.name);
-                        form.find('#ModalInputLastName').val(user.lastName);
-                        form.find('#ModalInputAge').val(user.age);
-                        form.find('#ModalInputEmail').val(user.email);
+                       //TODO serverSelect
                         let roleSelect = form.find('#ModalInputRole');
                         roleSelect.empty();
                         ['ROLE_ADMIN', 'ROLE_USER'].forEach(role => {
@@ -64,9 +60,7 @@ function loadUsers() {
                         // модальное окно удаления пользователя
                         $('#ModalIdDelete').val(user.id);
                         $('#ModalFirstNameDelete').val(user.name);
-                        $('#ModalLastNameDelete').val(user.lastName);
-                        $('#ModalAgeDelete').val(user.age);
-                        $('#ModalEmailDelete').val(user.email);
+                        $('#ModalServerDelete').val(user.servers.map(s => s.ip).join(', '));
                         $('#ModalRoleDelete').val(user.roles.map(r => r.role).join(', '));
                         $('#ModalDeleteUserCentral').modal('show');
                     }
@@ -154,9 +148,9 @@ $('#confirmDeleteUser').click(function () {
 });
 
 function adminNavigationPanel(user) {
-    let email = `<strong>${user.email}</strong>`;
+    let name = `<strong>${user.name}</strong>`;
     let roles = user.roles.map(role => role.role.replace('ROLE_', '')).join(', ');
-    let content = `${email} with roles: ${roles}`;
+    let content = `${name} with roles: ${roles}`;
     $("#adminNavPanel").html(content);
 }
 
@@ -178,13 +172,12 @@ function currentUser() {
 
 function TableOfCurrentUser(user) {
     let roles = user.roles.map(role => role.role).join(', ');
+    let servers = user.servers.map(server => server.ip).join('\n');
     let userRow = `
                 <tr>
                     <td>${user.id}</td>
                     <td>${user.name}</td>
-                    <td>${user.lastName}</td>
-                    <td>${user.age}</td>
-                    <td>${user.email}</td>
+                    <td>${servers}</td>
                     <td>${roles}</td>
                 </tr>
             `;

@@ -14,9 +14,6 @@ public class UserMapper {
         return new UserDTO(
                 user.getId(),
                 user.getName(),
-                user.getLastName(),
-                user.getAge(),
-                user.getEmail(),
                 user.getPassword(),
                 user.getRoles(),
                 user.getServers()
@@ -27,9 +24,6 @@ public class UserMapper {
         return new User(
                 userDTO.getId(),
                 userDTO.getName(),
-                userDTO.getLastName(),
-                userDTO.getEmail(),
-                userDTO.getAge(),
                 userDTO.getPassword(),
                 rolesMapper(userDTO.getRoles()),
                 userDTO.getServers()
