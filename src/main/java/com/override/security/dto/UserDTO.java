@@ -3,6 +3,7 @@ package com.override.security.dto;
 
 
 import com.override.security.model.Role;
+import com.override.security.model.Server;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,5 @@ public class UserDTO {
     private String email;
     private String password;
     private Set<Role> roles;
+    private Set<Server> servers;
 }

@@ -5,19 +5,21 @@ import com.override.security.model.Server;
 
 public class ServerMapper {
     public static ServerDTO entityToDTO(Server server) {
-        ServerDTO serverDTO = new ServerDTO();
-        serverDTO.setId(server.getId());
-        serverDTO.setName(server.getName());
-        serverDTO.setIp(server.getIp());
-        return serverDTO;
-
+        return new ServerDTO(
+                server.getId(),
+                server.getName(),
+                server.getIp(),
+                server.getUsers()
+        );
     }
 
     public static Server DTOToEntity(ServerDTO serverDTO) {
-        Server server = new Server();
-        server.setId(serverDTO.getId());
-        server.setName(serverDTO.getName());
-        server.setIp(serverDTO.getIp());
-        return server;
+        return new Server(
+                serverDTO.getId(),
+                serverDTO.getName(),
+                serverDTO.getIp(),
+                serverDTO.getUsers()
+        );
+
     }
 }
