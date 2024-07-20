@@ -30,8 +30,6 @@ public class ServerService {
 
     @Autowired
     private ServerServiceImpl serverServiceImpl;
-    @Autowired
-    private UserService userService;
 
     public Session authToServer(String serverIP, String pathToPrivateKey, String serverUserName, SSHClient sshConnect) throws IOException {
         File privateKey = new File(pathToPrivateKey);
@@ -54,7 +52,7 @@ public class ServerService {
         return ret;
     }
 
-    public InlineKeyboardMarkup getServersInlineKeyboard(String userName) {
+    public SendMessage getServersInlineKeyboard(Long chatId, String userName) {
 
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
@@ -70,7 +68,13 @@ public class ServerService {
         });
 
         markupInline.setKeyboard(rowsInline);
-        return markupInline;
+
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText("Servers: ");
+        message.setReplyMarkup(markupInline);
+
+        return message;
 
     }
 

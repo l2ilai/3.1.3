@@ -7,6 +7,7 @@ import com.override.security.bot.service.KeyFileService;
 import com.override.security.bot.service.ServerService;
 import com.override.security.bot.service.UserService;
 import com.override.security.service.ServerServiceImpl;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -49,6 +50,7 @@ public class Bot extends TelegramLongPollingCommandBot {
         return botProperties.getToken();
     }
 
+    @SneakyThrows
     @Override
     public void processNonCommandUpdate(Update update) {
 
@@ -58,13 +60,15 @@ public class Bot extends TelegramLongPollingCommandBot {
             if (update.hasMessage() && update.getMessage().hasDocument()) {
                 String message = keyFile.ExecuteLoadKeyFile(update, getBotToken());
                 sendMessage(chatId, message);
-                sendMessage(chatId, "Servers:", serverService.getServersInlineKeyboard(userName));
-            } 
-//            else if (update.hasMessage() && update.getMessage().hasText()) {
+                execute(serverService.getServersInlineKeyboard(chatId, userName));
+
+            }
+            else if (update.hasMessage() && update.getMessage().hasText()) {
+                execute(serverService.getServersInlineKeyboard(chatId, userName));
 //                String msgText = update.getMessage().getText();
 //                String resCommand = serverService.execCommand(msgText);
 //                sendMessage(chatId, resCommand);
-//            } 
+            }
         } else {
             sendMessage(chatId, "Нет прав для выполнения команды!");
         }
