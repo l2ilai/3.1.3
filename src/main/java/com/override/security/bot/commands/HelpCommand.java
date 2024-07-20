@@ -17,7 +17,7 @@ public class HelpCommand extends ServiceCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
 
-        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), this.getUserName(user),
+        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), user,
                 "\uD83E\uDD21");
     }
 }

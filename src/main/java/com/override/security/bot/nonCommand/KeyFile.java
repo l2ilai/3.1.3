@@ -20,7 +20,7 @@ public class KeyFile {
     private UserService userService;
 
 
-    public String ExecuteLoadKeyFile(Update update, String botToken) {
+    public String executeLoadKeyFile(Update update, String botToken) {
         Document document = update.getMessage().getDocument();
         String newServerUser = userService.getServerUserName(update);
         String docId = update.getMessage().getDocument().getFileId();

@@ -17,7 +17,7 @@ public class StartCommand extends ServiceCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
 
-        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), this.getUserName(user),
+        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), user,
                 "Ку! Я могу добавить публичный SSH \uD83D\uDD11 на любой доступный сервер." +
                         " Узнать доступные сервера /servers. Получить помощь /help");
     }

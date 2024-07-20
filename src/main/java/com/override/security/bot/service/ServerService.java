@@ -53,7 +53,7 @@ public class ServerService {
         return ret;
     }
 
-    public SendMessage getServersInlineKeyboard(Long chatId) {
+    public InlineKeyboardMarkup getServersInlineKeyboard() {
 
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
@@ -62,7 +62,7 @@ public class ServerService {
         serverServiceImpl.findAllServers().forEach( x -> {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText(x.getName() + " " + x.getIp());
+            inlineKeyboardButton.setText(x.getName());
             inlineKeyboardButton.setCallbackData(x.getName());
             rowInline.add(inlineKeyboardButton);
             rowsInline.add(rowInline);
@@ -70,12 +70,7 @@ public class ServerService {
 
         markupInline.setKeyboard(rowsInline);
 
-        SendMessage message = new SendMessage();
-        message.setChatId(String.valueOf(chatId));
-        message.setText("Servers: ");
-        message.setReplyMarkup(markupInline);
-
-        return message;
+        return markupInline;
 
     }
 

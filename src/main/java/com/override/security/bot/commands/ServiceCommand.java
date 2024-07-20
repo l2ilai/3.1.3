@@ -17,15 +17,17 @@ public abstract class ServiceCommand extends BotCommand {
     @Autowired
     private UserService userService;
 
-    void sendAnswer(AbsSender absSender, Long chatId, String commandName, String userName, String text) {
-        SendMessage message = new SendMessage();
-        message.enableMarkdown(true);
-        message.setChatId(chatId.toString());
-        message.setText(text);
-        try {
-            absSender.execute(message);
-        } catch (TelegramApiException e) {
-            //TODO
+    void sendAnswer(AbsSender absSender, Long chatId, String commandName, User user, String text) {
+        if (userService.isOwner(getUserName(user))) {
+            SendMessage message = new SendMessage();
+            message.enableMarkdown(true);
+            message.setChatId(chatId.toString());
+            message.setText(text);
+            try {
+                absSender.execute(message);
+            } catch (TelegramApiException e) {
+                //TODO
+            }
         }
     }
 

@@ -58,13 +58,13 @@ public class Bot extends TelegramLongPollingCommandBot {
         String userName = update.getMessage().getFrom().getUserName();
         if (userService.isOwner(userName)) {
             if (update.hasMessage() && update.getMessage().hasDocument()) {
-                String message = keyFile.ExecuteLoadKeyFile(update, getBotToken());
+                String message = keyFile.executeLoadKeyFile(update, getBotToken());
                 sendMessage(chatId, message);
-                execute(serverService.getServersInlineKeyboard(chatId));
+                sendMessage(chatId, "Servers:", serverService.getServersInlineKeyboard());
 
             }
             else if (update.hasMessage() && update.getMessage().hasText()) {
-                execute(serverService.getServersInlineKeyboard(chatId));
+
 //                String msgText = update.getMessage().getText();
 //                String resCommand = serverService.execCommand(msgText);
 //                sendMessage(chatId, resCommand);

@@ -23,7 +23,7 @@ public class ServersCommand  extends ServiceCommand {
     @Override
     public void execute(AbsSender absSender, User user, Chat chat, String[] strings) {
 
-        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), this.getUserName(user),
+        sendAnswer(absSender, chat.getId(), this.getCommandIdentifier(), user,
                 "Список доступных серверов:\n" +
                         serverService.findAllServers().stream()
                                 .map(server -> "\uD83D\uDC49" + " " + server.getName() +
