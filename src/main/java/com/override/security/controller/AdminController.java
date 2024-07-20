@@ -28,7 +28,7 @@ public class AdminController {
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @GetMapping
-    public String getAdminPage(Model model) {
+    public String getAllUsers(Model model) {
         model.addAttribute("users", userDetailsServiceImpl.findAllUsers());
         return "admin-panel";
     }

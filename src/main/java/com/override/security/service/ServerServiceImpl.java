@@ -26,10 +26,6 @@ public class ServerServiceImpl {
     @Autowired
     private ServerRepository serverRepository;
 
-    @Autowired
-    private ServerProperties serverProperties;
-
-
     public List<Server> findAllServers() {
         return serverRepository.findAll();
     }
@@ -61,26 +57,5 @@ public class ServerServiceImpl {
         if (serverRepository.findById(id).isPresent()) {
             serverRepository.deleteById(id);
         }
-    }
-
-    @SneakyThrows
-    public String execCommand(String command) {
-        SSHClient sshConnect = new SSHClient();
-        Session session = authToServer(serverProperties.getIp(), serverProperties.getPathToPrivateKey(), serverProperties.getUser(), sshConnect);
-        Session.Command cmd = session.exec(command);
-        String ret = IOUtils.readFully(cmd.getInputStream()).toString();
-        System.out.println("========stdout==========\n" + ret + "============+=");
-        session.close();
-        sshConnect.close();
-        return ret;
-    }
-
-    public Session authToServer(String serverIP, String pathToPrivateKey, String serverUserName, SSHClient sshConnect) throws IOException {
-        File privateKey = new File(pathToPrivateKey);
-        KeyProvider keys = sshConnect.loadKeys(privateKey.getPath());
-        sshConnect.addHostKeyVerifier(new PromiscuousVerifier());
-        sshConnect.connect(serverIP, DEFAULT_PORT);
-        sshConnect.authPublickey(serverUserName, keys);
-        return sshConnect.startSession();
     }
 }
