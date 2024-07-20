@@ -62,8 +62,8 @@ public class ServerService {
         serverServiceImpl.findAllServers().forEach( x -> {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText(x.getName());
-            inlineKeyboardButton.setCallbackData("Сервер " + x.getName());
+            inlineKeyboardButton.setText(x.getName() + " " + x.getIp());
+            inlineKeyboardButton.setCallbackData(x.getName());
             rowInline.add(inlineKeyboardButton);
             rowsInline.add(rowInline);
         });
