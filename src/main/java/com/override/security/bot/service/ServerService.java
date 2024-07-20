@@ -12,6 +12,7 @@ import net.schmizz.sshj.userauth.keyprovider.KeyProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
@@ -52,7 +53,7 @@ public class ServerService {
         return ret;
     }
 
-    public SendMessage getServersInlineKeyboard(Long chatId, String userName) {
+    public SendMessage getServersInlineKeyboard(Long chatId) {
 
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
 
@@ -62,7 +63,7 @@ public class ServerService {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
             inlineKeyboardButton.setText(x.getName());
-            inlineKeyboardButton.setCallbackData("Сервер " + x.getName() + " c IP: " + x.getIp() + " выбран для пользователя " + userName);
+            inlineKeyboardButton.setCallbackData("Сервер " + x.getName());
             rowInline.add(inlineKeyboardButton);
             rowsInline.add(rowInline);
         });
