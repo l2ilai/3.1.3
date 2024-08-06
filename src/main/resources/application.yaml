@@ -11,7 +11,7 @@ bot:
   name: ${BOT_NAME}
   token: ${BOT_TOKEN}
 ssh-server:
-  ip: ${SSH_IP}
+  ip: 194.87.237.176
   port: ${SSH_PORT:22}
   user: ${SSH_USER}
   pathToPrivateKey: ${SSH_KEY_PATH:id_rsa}

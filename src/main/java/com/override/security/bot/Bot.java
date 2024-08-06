@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Document;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -50,6 +51,7 @@ public class Bot extends TelegramLongPollingCommandBot {
         return botProperties.getToken();
     }
 
+
     @SneakyThrows
     @Override
     public void processNonCommandUpdate(Update update) {
@@ -61,6 +63,7 @@ public class Bot extends TelegramLongPollingCommandBot {
                 String message = keyFile.executeLoadKeyFile(update, getBotToken());
                 sendMessage(chatId, message);
                 sendMessage(chatId, "Servers:", serverService.getServersInlineKeyboard());
+
 
             }
             else if (update.hasMessage() && update.getMessage().hasText()) {
